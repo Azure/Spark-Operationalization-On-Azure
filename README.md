@@ -1,11 +1,11 @@
 # Azure Machine Learning vNext
 
-The new version of Azure Machine Learning is powered by Spark, and will leverage many of high-scale Azure Services including HDInsight, Azure Container Service (ACS) and Azure Container Registry (ACR).
+The new version of Azure Machine Learning (ML) is powered by Spark, and leverages many of the high-scale Azure Services including HDInsight, Azure Container Service (ACS), and Azure Container Registry (ACR).
 
 ## Private Preview
-For Privew Preview of Azure ML, we are using the Data Science VM (DS VM) as the environment to get started using the Azure ML vNext. Using the Azure ML Command Line Interface (CLI), you can deploy Spark ML models and pipelines you create in the Jupyter Notebook written in PySpark.
+The private preview of Azure ML vNext, uses the Data Science VM (DS VM) as the getting started environment. Using the Azure ML Command Line Interface (CLI), you can deploy Spark ML models and pipelines that you create in a Jupyter Notebook written in PySpark.
 
-These models can be deployed, using Docker Container, as Real-time or Batch web services to run locally on the DS VM or remotely on the ACS cluster for real-time or on the HDI cluster for batch scnarios. 
+Using Docker Container, you can deploy these models as Real-time or Batch web services. The web services can run locally on the DS VM or remotely on the ACS cluster for real-time or on the HDI cluster for batch scnarios. 
 
 The DS VM deployment is meant for development and testing. ACS and HDI (i.e. remote) deployments are meant for high-scale, production scenarios.
 
