@@ -10,43 +10,34 @@ Using Docker Container, you can deploy these models as Real-time or Batch web se
 The DS VM deployment is meant for development and testing. ACS and HDI (i.e. remote) deployments are meant for high-scale, production scenarios.
 
 The following are the steps to start using Azure ML Private Preview.
-
-### 1. Provision Data Science VM
-Provision the Linux Data Science VM. Using this VM, you can deploy a model or pipeline as a web service and call the web service for testing.
-
-1. Sign into the [Azure portal](https://portal.azure.com).
-2. Click **New**.
-3. Search for "Linux Data Science Virtual Machine".
-4. Click Linux Data Data Science Virtual Machine from the returned results dropdown.
-5. Click Linux Data Data Science Virtual Machine.
-6. Click **Create** to begin configuring and provisioning the virtual machine. Q: Are there any guidelines we should give them for the configuration?
+6. Click **Create** to begin configuring and provisioning the virtual machine. Q: Are there any guidelines we should give them for the configuration?
 
 Do they need to log on do any additional configuration at this point?
 
-#### 1.1 Install the Azure ML CLI
+#### 1.1 Install the CLI
 
-Do they need to install the Azure CLI first?
-
-* from where
-  * what is the command
+    pip install azuremlcli –extra-index-url https://pypi-amlbd.southcentralus.cloudapp.azure.com/simple --trusted-host https://pypi-amlbd.southcentralus.cloudapp.azure.com
 
 ### 2. Set up the environment
 
+Install version 2.0 of the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-az-cli2).
+
 #### 2.1 Provision ACR (required)
 
-az acr create -name myRegistry -resource-group myResourceGroup -l southcentralus --storage-account-name myStorageAccount
+    az acr create -name myRegistry -resource-group myResourceGroup -l southcentralus --storage-account-name myStorageAccount
 
-For more information on managing Azure container  with the Azure CLI, see [az acr](https://docs.microsoft.com/en-us/cli/azure/acr).
+For more information on managing Azure container  with the Azure CLI, see [az acr](https://docs.microsoft.com/en-us/cli/azure/acr).
 
 #### 2.2 Provision ACS (optional for production deployment scenario)
 
-az acs create -name myCluster -resource-group myResourceGroup
+    az acs create -name myCluster -resource-group myResourceGroup
 
-For more information on managing Azure container services with the Azure CLI, see [az acs](https://docs.microsoft.com/en-us/cli/azure/acs).
+For more information on managing Azure container services with the Azure CLI, see [az acs](https://docs.microsoft.com/en-us/cli/azure/acs).
 
 #### 2.3 Provision HDI Spark (optional for production deployment scenario)
 
 ### 3. Open Sample Jupyter Noteook
+
 Start Jupyter Notebook on the DS VM. Then open the AML Sample Notebook.
 --- where?
 Follow the instructions to create and deploy a model as a web service for real-time or batch scoring.
