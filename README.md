@@ -15,14 +15,25 @@ The following are the steps to start using Azure ML Private Preview.
 Provision the Linux Data Science VM. Using this VM, you can deploy a model or pipeline as a web service and call the web service for testing.
 
 #### 1.1 Install the Azure ML CLI
---- from where
---- what is the command
+
+Do they need to install the Azure CLI first?
+
+* from where
+  * what is the command
 
 ### 2. Set up the environment
 
 #### 2.1 Provision ACR (required)
 
+az acr create -name myRegistry -resource-group myResourceGroup -l southcentralus --storage-account-name myStorageAccount
+
+For more information on managing Azure container  with the Azure CLI, see [az acr](https://docs.microsoft.com/en-us/cli/azure/acr).
+
 #### 2.2 Provision ACS (optional for production deployment scenario)
+
+az acs create -name myCluster -resource-group myResourceGroup
+
+For more information on managing Azure container services with the Azure CLI, see [az acs](https://docs.microsoft.com/en-us/cli/azure/acs).
 
 #### 2.3 Provision HDI Spark (optional for production deployment scenario)
 
