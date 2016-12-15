@@ -30,9 +30,9 @@ For more information on managing Azure container  with the Azure CLI, see [az
 
 #### 2.2 Provision ACS (optional for production deployment scenario)
 
-    az acs create -name myCluster -resource-group myResourceGroup
+  az group deployment create -g mygroup --template-uri https://myresource/azuredeploy.json --parameters @myparameters.json
 
-For more information on managing Azure container services with the Azure CLI, see [az acs](https://docs.microsoft.com/en-us/cli/azure/acs).
+For more information on deploying Azure container service templates with the Azure CLI, see [az group deployment](https://docs.microsoft.com/en-us/cli/azure/group/deployment).
 
 #### 2.3 Provision HDI Spark (optional for production deployment scenario)
 
