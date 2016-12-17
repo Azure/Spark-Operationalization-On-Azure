@@ -10,11 +10,37 @@ Using Docker Container, you can deploy these models as Real-time or Batch web se
 The DS VM deployment is meant for development and testing. ACS and HDI (i.e. remote) deployments are meant for high-scale, production scenarios.
 
 The following are the steps to start using Azure ML Private Preview.
-6. Click **Create** to begin configuring and provisioning the virtual machine. Q: Are there any guidelines we should give them for the configuration?
 
-Do they need to log on do any additional configuration at this point?
+1. Sign in to the [Azure portal](https://portal.azure.com).
+2. Click **New** and then type Linux Data Science Virtual Machine in the search box.
+3. Select Linux Data Science Virtual Machine from the returned results.
+4. Click Linux Data Science Virtual Machine [Staged] and then click **Create** to begin configuring and provisioning the virtual machine. 
+
+When provisioning the DSVM, configure **Authentication type** as Password rather than SSH Public Key. Note: To successfully sign into the Jupyter hub, any alpha characters in the user name must be lower case. Using any upper case characters in the user ID will cause the sign in to the Jupyter hub to fail.
+
+Once the DSVM is provisioned, connect to the VM using [X2Go](http://code.x2go.org/releases/binary-win32/x2goclient/releases/4.0.5.2-2016.09.20/). You can 
+
+Create an X2Go session with the following details:
+
+1. Host: (host IP) or (host DNS name)
+2. Port: Get from DSVM Assignments
+3. User: The DSVM user ID that you configured.
+4. Password: The DSVM password that you configured.
+5. Session type: XFCE
+
+Uncheck Client side printing (under session preference -> media).
+
+Use the X2Go client to ssh into the machine. Open a terminal session, and run the following:
+
+    $ wget –q http://ritbhatrrs.blob.core.windows.net/release/dsvmsetup.sh -O - | sudo bash /dev/stdin $USER
+
+The sudo password is the password you configured above for the DSVM.
+
+Once the script has finished running, sign out and then sign back into the DSVM.
 
 #### 1.1 Install the CLI
+
+On your local machine, install 
 
     pip install azuremlcli –extra-index-url https://pypi-amlbd.southcentralus.cloudapp.azure.com/simple --trusted-host https://pypi-amlbd.southcentralus.cloudapp.azure.com
 
@@ -30,7 +56,7 @@ For more information on managing Azure container  with the Azure CLI, see [az
 
 #### 2.2 Provision ACS (optional for production deployment scenario)
 
-  az group deployment create -g mygroup --template-uri https://myresource/azuredeploy.json --parameters @myparameters.json
+  az group deployment create -g mygroup --template-uri https://myresource/azuredeploy.json --parameters @myparameters.json
 
 For more information on deploying Azure container service templates with the Azure CLI, see [az group deployment](https://docs.microsoft.com/en-us/cli/azure/group/deployment).
 
