@@ -10,6 +10,8 @@ The web services can run locally on the DSVM or remotely on the ACS cluster for 
 
 The DSVM deployment is meant for development and testing. ACS and HDI (i.e. remote) deployments are meant for high-scale, production scenarios.
 
+## Provision DSVM
+
 To start using the Azure ML Private Preview, you must first provision a DSVM. The following steps will guide you through the process.
 
 1. Sign in to the [Azure portal](https://portal.azure.com).
@@ -20,14 +22,12 @@ To start using the Azure ML Private Preview, you must first provision a DSVM. Th
 When provisioning the DSVM, configure **Authentication type** as Password rather than SSH Public Key. Note: To successfully sign into the Jupyter hub, any alpha characters in the user name must be lower case. Using any upper case characters in the user ID will cause the sign in to the Jupyter hub to fail.
 
 Once the DSVM is provisioned, note the IP address of the machine.
+## Set up DSVM
+connect to the DSVM machine configure it.
 
-## For Real-time service (RRS)
+### X2GO stuff
 
-When deploying RRS services, Azure ML uses Docker containers. The container then can be deploye locally to the DSVM or to an ACS cluster for high-scale production scenarios. 
-
-The following are the steps to set up an RRS service (local or production).
-
-### Provision ACR (required)
+#### Provision ACR (required)
 
 Run the following command to set up an Azure Container Registry (ACR) to host your web service's container:
 
@@ -35,12 +35,14 @@ Run the following command to set up an Azure Container Registry (ACR) to host yo
 
 For more information on managing Azure container  with the Azure CLI, see [az acr](https://docs.microsoft.com/en-us/cli/azure/acr).
 
-### Open the sample Jupyter noteook
+#### Login to Jupyter server
+Instructions how to connect to the jupyter hub....
+Includes log in...
+Need log in instrucitons...
+Click AzureML.
 
-Jupyter is running on the DSVM at https://&lt;machine-ip-address&gt;:8000. Open Jupyter in a browser and sign in. The username and password are the those that you configured for the DSVM.  Note that you will recieve a certifiate warning that you can safely click through. 
+## For Real-time service (RRS)
+For RRS go here<>, open the notebook and follow the instructions.
 
-The *realtimewebservices.ipynb* sample notebook is located in the azureml folder. 
-   
-Click the notebook to open it. Follow the instructions to create and deploy a model as a web service for real-time scoring.
-
-
+## For Batch service (BES)
+For bes go here <>, open the notebook and follow the instructions.
