@@ -42,7 +42,15 @@ Need log in instrucitons...
 Click AzureML.
 
 ## For Real-time service (RRS)
-For RRS go here<>, open the notebook and follow the instructions.
+To run the RRS service in the production scenario (not on DSVM), you need to set up an ACS cluster. The command is below:
+
+...ACS provisioning command
+
+Open the notebook from here <> and follow the instructions.
 
 ## For Batch service (BES)
-For bes go here <>, open the notebook and follow the instructions.
+To run a batch job in the production scenario (not on DSVM), you need to set up and HDI cluster. The command is below:
+
+... HDI provisiong command
+
+Open the notebook from here<> and follow the instruction.
