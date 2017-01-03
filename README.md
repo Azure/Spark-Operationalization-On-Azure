@@ -10,7 +10,7 @@ Using Docker Container, you can deploy these models as Real-time or Batch web se
 
 The DSVM deployment is meant for development and testing. ACS and HDI (i.e. remote) deployments are meant for high-scale, production scenarios.
 
-To start using Azure ML Private Preview, you must first provision a DSVM. The following steps will guide you through the process.
+To start using the Azure ML Private Preview, you must first provision a DSVM. The following steps will guide you through the process.
 
 1. Sign in to the [Azure portal](https://portal.azure.com).
 2. Click **New** and then type Linux Data Science Virtual Machine in the search box.
@@ -49,29 +49,32 @@ Install the ML CLI by entering the following command:
 
     pip install azuremlcli –extra-index-url https://pypi-amlbd.southcentralus.cloudapp.azure.com/simple --trusted-host https://pypi-amlbd.southcentralus.cloudapp.azure.com
 
-### 2. Set up the environment
+## Set up the environment
 
 Install version 2.0 of the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-az-cli2).
 
-#### 2.1 Provision ACR (required)
+### Provision ACR (required)
 
     az acr create -name myRegistry -resource-group myResourceGroup -l southcentralus --storage-account-name myStorageAccount
 
 For more information on managing Azure container  with the Azure CLI, see [az acr](https://docs.microsoft.com/en-us/cli/azure/acr).
 
-#### 2.2 Provision ACS (optional for production deployment scenario)
+## Open the sample Jupyter noteook
+
+Jupyter is running on the DSVM at https://&lt;machine-ip-address&gt;:8000. Open Jupyter in a browser and sign in. The username and password are the those that you configured for the DSVM.  Note that you will recieve a certifiate warning that you can safely click through. 
+
+The *realtimewebservices.ipynb* sample notebook is located in the azureml folder. 
+   
+Click the notebook to open it. Follow the instructions to create and deploy a model as a web service for real-time or batch scoring.
+
+## Deploy high-scale production Scenario
+
+### Provision ACS (optional for production deployment scenario)
 
   az group deployment create -g mygroup --template-uri https://myresource/azuredeploy.json --parameters @myparameters.json
 
 For more information on deploying Azure container service templates with the Azure CLI, see [az group deployment](https://docs.microsoft.com/en-us/cli/azure/group/deployment).
 
-#### 2.3 Provision HDI Spark (optional for production deployment scenario)
+### Provision HDI Spark (optional for production deployment scenario)
 
-### 3. Open Sample Jupyter Noteook
-
-Jupyter is running on the DSVM at https://<machine-ip-address>:8000. Open Jupyter in a browser and sign in. The username and password are the those that you configured for the DSVM.  Note that you will recieve a certifiate warning that you can safely click through. 
-
-The *realtimewebservices.ipynb* sample notebook is located in the azureml folder. 
-   
-Click the notebook to open it. Follow the instructions to create and deploy a model as a web service for real-time or batch scoring.
 
