@@ -16,7 +16,7 @@ You must configure the Azure Container Registry (ACR) to host your web service's
 
 #### Provision your ACR 
 
-If you have not already done so, install version 2.0 of the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-az-cli2) on local machine.
+If you have not already done so, install version 2.0 of the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-az-cli2) on your local machine.
 
 Once the Azure CLI is installed, open a command prompt and run the following command to set up the ACR:
 
