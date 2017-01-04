@@ -20,7 +20,11 @@ If you have not already done so, install version 2.0 of the [Azure CLI](https://
 
 Once the Azure CLI is installed, open a command prompt and run the following command to set up the ACR:
 
-    az acr create --name myRegistry --resource-group myResourceGroup -l southcentralus --storage-account-name myStorageAccount
+    az acr create --name myRegistry --resource-group myResourceGroup -l southcentralus --storage-account-name myStorageAccount -admin-enabled true
+
+After you have created the ACR, retrieve the ACR credentials. Save the user name and password as you will need them to deploy the web service. To retrieve the credentials, tun the following command:
+
+	az acr credential show -n myRegistry
 
 For more information on managing Azure containers with the Azure CLI, see [az acr](https://docs.microsoft.com/en-us/cli/azure/acr).
 
