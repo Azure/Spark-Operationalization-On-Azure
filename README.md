@@ -10,7 +10,7 @@ The private preview of Azure ML vNext, uses a Data Science VM (DSVM) as the gett
 
 The web services can run locally on the DSVM or remotely on the ACS cluster for real-time or on the HDI cluster for batch scenarios. 
 
-## Set up the Azure Container Registry
+## Set up the Azure Container Registry (ACR)
 
 You must configure the Azure Container Registry (ACR) to host your web service's container. 
 
@@ -20,9 +20,9 @@ If you have not already done so, install version 2.0 of the [Azure CLI](https://
 
 Once the Azure CLI is installed, open a command prompt and run the following command to set up the ACR:
 
-    az acr create --name myRegistry --resource-group myResourceGroup -l southcentralus --storage-account-name myStorageAccount -admin-enabled true
+    az acr create --name myRegistry --resource-group myResourceGroup -l southcentralus --storage-account-name myStorageAccount --admin-enabled true
 
-After you have created the ACR, retrieve the ACR credentials. Save the user name and password as you will need them to deploy the web service. To retrieve the credentials, tun the following command:
+After you have created the ACR, retrieve the ACR credentials. Save the user name and password as you will need them to deploy the web service. To retrieve the credentials, run the following command:
 
 	az acr credential show -n myRegistry
 
@@ -30,9 +30,7 @@ For more information on managing Azure containers with the Azure CLI, see [az ac
 
 The supplied Jupyter notebooks run the services on your DSVM. 
 
-To run the RRS service in a production scenario (not on the DSVM), you need to set up an ACS cluster. To setup the ACS cluster, run the following command:
 
-...ACS provisioning command
 
 To run a batch job in a production scenario (not on the DSVM), you need to set up an HDI cluster. To setup the HDI cluster, run the following command
 
@@ -46,13 +44,14 @@ The notebooks for the private preview scenarios are located in the **AzureML** f
 
 ## For Real-time service (RRS)
 
-To run the RRS scenario, open the realtimewebservices.ipynb notebook and follow the provided instructions.
+### Provision your ACS (Only for Production "cluster" scenario) 
+To run the RRS service in a production scenario (not on the DSVM), you need to set up an ACS cluster. You don't need to run this if you will only want to run your web service on the DSVM. To setup the ACS cluster, run the following command:
 
-# Production Cluster Template
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Famlacstemplateresources.blob.core.windows.net%3A443%2Ftemplates%2Fproduction%2FAmlMesosTemplate.json" target="_blank"><img src="http://azuredeploy.net/deploybutton.png"/></a>
 
-# Debug Cluster Template (Opens up additional port to connect to Mesos/Marathon Web UI)
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Famlacstemplateresources.blob.core.windows.net%3A443%2Ftemplates%2Fdebug%2FAmlMesosTemplate.json" target="_blank"><img src="http://azuredeploy.net/deploybutton.png"/></a>
+## Run the Notebook 
+To run the RRS scenario, open the realtimewebservices.ipynb notebook and follow the provided instructions.
+
 
 ## For Batch service (BES)
 
