@@ -1,4 +1,4 @@
-# Private preview of Azure Machine Learning vNext
+ # Private preview of Azure Machine Learning vNext
 
 ## Overview
 
@@ -44,8 +44,7 @@ To run the RRS service in a production scenario (not on the DSVM), you need to s
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Famlacstemplateresources.blob.core.windows.net%3A443%2Ftemplates%2Fproduction%2FAmlMesosTemplate.json" target="_blank"><img src="http://azuredeploy.net/deploybutton.png"/></a>
 
 ### Run the Notebook 
-To run the RRS scenario, open the realtimewebservices.ipynb notebook and follow the provided instructions.
-
+To run the RRS scenario, open the realtimewebservices.ipynb notebook and follow the provided instructions to train, save and deploy a model as a web service.
 
 ## For Batch service (BES)
 To run a batch job in a production scenario (not on the DSVM), you need to set up an HDI cluster. To setup the HDI cluster, run the following command
