@@ -1,4 +1,4 @@
- # Private preview of Azure Machine Learning vNext
+# Private preview of Azure Machine Learning vNext
 
 ## Overview
 
