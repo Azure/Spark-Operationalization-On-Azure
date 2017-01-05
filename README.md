@@ -30,12 +30,6 @@ For more information on managing Azure containers with the Azure CLI, see [az ac
 
 The supplied Jupyter notebooks run the services on your DSVM. 
 
-
-
-To run a batch job in a production scenario (not on the DSVM), you need to set up an HDI cluster. To setup the HDI cluster, run the following command
-
-... HDI provisioning command
-
 #### Sign in to the Jupyter server
 
 Jupyter is running on the DSVM at https://&lt;machine-ip-address&gt;:8000. Open Jupyter in a browser and sign in. The user name and password are the those that you configured for the DSVM.  Note that you will receive a certificate warning that you can safely click through. 
@@ -54,5 +48,8 @@ To run the RRS scenario, open the realtimewebservices.ipynb notebook and follow 
 
 
 ## For Batch service (BES)
+To run a batch job in a production scenario (not on the DSVM), you need to set up an HDI cluster. To setup the HDI cluster, run the following command
+
+... HDI provisioning command
 
 To run the RRS scenario, open the batchwebservice.ipynb notebook and follow the provided instructions.
