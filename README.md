@@ -1,4 +1,4 @@
-# Bug Bash for Azure Machine Learning vNext
+# Azure Machine Learning vNext
 
 ## Overview
 
