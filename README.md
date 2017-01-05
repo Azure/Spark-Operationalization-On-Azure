@@ -48,6 +48,12 @@ The notebooks for the private preview scenarios are located in the **AzureML** f
 
 To run the RRS scenario, open the realtimewebservices.ipynb notebook and follow the provided instructions.
 
+# Production Cluster Template
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Famlacstemplateresources.blob.core.windows.net%3A443%2Ftemplates%2Fproduction%2FAmlMesosTemplate.json" target="_blank"><img src="http://azuredeploy.net/deploybutton.png"/></a>
+
+# Debug Cluster Template (Opens up additional port to connect to Mesos/Marathon Web UI)
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Famlacstemplateresources.blob.core.windows.net%3A443%2Ftemplates%2Fdebug%2FAmlMesosTemplate.json" target="_blank"><img src="http://azuredeploy.net/deploybutton.png"/></a>
+
 ## For Batch service (BES)
 
 To run the RRS scenario, open the batchwebservice.ipynb notebook and follow the provided instructions.
