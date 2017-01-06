@@ -40,6 +40,12 @@ You will need to SSH into the DSVM. We recommend you use MobaXterm Home Edition.
 
 Once you have installed MobaXTerm, open an SSH session to the DSVM.
 
+Run this command in SSH session:
+
+	$ wget -q http://ritbhatrrs.blob.core.windows.net/release/dsvmsimplesetup.sh -O - | sudo bash /dev/stdin $USER
+
+Then log out and log back in.
+
 ### Provision ACR
 Run the following command to provision your ACR:
 
