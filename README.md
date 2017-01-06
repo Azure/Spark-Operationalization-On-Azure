@@ -89,7 +89,7 @@ AML_ACR_PW=
 ## Jupyter notebook
 
 Jupyter is running on the DSVM at https://&lt;machine-ip-address&gt;:8000. Open Jupyter in a browser and sign in. The user name and password are the those that you configured for the DSVM.  Note that you will receive a certificate warning that you can safely click through. 
-
+#
 ### Run the Notebook 
 
 The notebooks are located in the **AzureML** folder. 
@@ -118,11 +118,11 @@ Follow the below instructions to deploy your batch web service.
 
 Click on the link https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fazuremlbatchtest.blob.core.windows.net%2Ftemplates%2FinstallTemplate.json and provide the Resource Group and name of the HDInsight Cluster. Leave the node size and count fields as is. Accept the license terms and click purchase. This template installs amlBatch app on your HDInsight Cluster. 
 
-#### On Your HDInsight Cluster
+##### On Your HDInsight Cluster
 
 Your HDInsight cluster already comes with a Food Inspections Jupyter Notebook Sample in the location HdiSamples/HdiSamples/FoodInspectionData.
 
-Open the notebook and execute all the cells in this Notebook till you reach the model creation cell. The title above this cell is ‘Create a logistic regression model from the input dataframe’
+Open the notebook and execute all the cells in it till you reach the model creation cell. The title above this cell is ‘Create a logistic regression model from the input dataframe’
 Add the below line at the end of this cell to save your model.
 
 ```
@@ -131,8 +131,13 @@ model.write().overwrite().save('wasb:///HdiSamples/HdiSamples/FoodInspectionData
 
 Now execute this cell. You may choose to proceed further to execute the remaining cells or skip to continue to create the web service from the CLI.
 
-#### On your machine that has the Azure CLI installed
+##### On your local machine 
+Perform the following steps on either your Linux or Windows machine that has Python installed.
 
+Install the Azure Machine Learning CLI using the following pip command
+```
+pip install azuremlcli --extra-index-url https://pypi-amlbd.southcentralus.cloudapp.azure.com/simple --trusted-host pypi-amlbd.southcentralus.cloudapp.azure.com --upgrade
+```
 Set the environment to cluster mode using the below command
 
 ```
@@ -154,8 +159,12 @@ This is the pySpark program that will be deployed as the batch scoring web servi
 On the command prompt on your machine, type the following CLI command to deploy your web service.
 
 ```
-aml service create batch -n batch_score_webservice -i --input-data -i --trained-model='wasb:///HdiSamples/HdiSamples/FoodInspectionDataModel’ -o --output-data
+aml service create batch -n batch_score_webservice -input --input-data -input --trained-model='wasb:///HdiSamples/HdiSamples/FoodInspectionDataModel’ -output --output-data
 ```
 
-This command creates your web service and saves it in the storage associated with the HDInsight cluster. After the web service is created, you will see instructions to run jobs against this web service.
+This command creates your web service and saves it in the storage associated with the HDInsight cluster. 
+Run the following command for guidance on calling the web service:
 
+```
+aml service view batch -n batch_score_webservice
+```
