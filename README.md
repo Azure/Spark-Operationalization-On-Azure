@@ -87,7 +87,6 @@ To run the RRS scenario, open the realtimewebservices.ipynb notebook and follow 
 You can operationalize your model as a batch web service in 2 environments through our private preview offering.
 
 1. Author your model and deploy the web service within a provisioned Data Science VM using the AzureML CLI. You will use this option in a dev/test or local environment when you are testing out your web service.
-
 2. Author your model and deploy the web service on a provisioned HDInsight Spark2.0 cluster. Yuu will use this option when you're ready to deploy your web service to production. In this case your Azure ML CLI may be installed on your local Linux or Windows machine and you will be executing the CLI commands in a cluster environment
 
 ### Deploying the Batch web service on a DSVM
@@ -120,7 +119,10 @@ Now execute this cell. You may choose to proceed further to execute the remainin
 #### On your machine that has the Azure CLI installed
 
 Set the environment to cluster mode using the below command
-> aml env cluster
+
+```
+aml env cluster
+```
 
 Set the following environment variables on your local machine so the CLI web service commands are targeted at your HDInsight Cluster and associated storage.
 
@@ -136,7 +138,9 @@ Copy over batch_score.py from the git repo[add git repo link] on your local mach
 This is the pySpark program that will be deployed as the batch scoring web service for your food inspections model.
 On the command prompt on your machine, type the following CLI command to deploy your web service.
 
->aml service create batch -n batch_score_webservice -i --input-data -i --trained-model='wasb:///HdiSamples/HdiSamples/FoodInspectionDataModel’ -o --output-data
+```
+aml service create batch -n batch_score_webservice -i --input-data -i --trained-model='wasb:///HdiSamples/HdiSamples/FoodInspectionDataModel’ -o --output-data
+```
 
 This command creates your web service and saves it in the storage associated with the HDInsight cluster. After the web service is created, you will see instructions to run jobs against this web service.
 
