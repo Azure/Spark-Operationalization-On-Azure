@@ -49,6 +49,7 @@ The ACR provisioning will complete quickly. Record the ACR Home, User, and Passw
 
 In Moba xTerm, start a second SSH session. Note: Do not open a new window on your current session.
 
+
 In the new SSH session, change directory to the azureml folder:
 
 ```
@@ -91,11 +92,13 @@ You can operationalize your model as a batch web service in 2 environments throu
 
 ### Deploying the Batch web service on a DSVM
 
-Look for the food_inspections.ipynb in the AzureML folder[provide folder name]. You can also find this sample file in the git repo.To run the Batch scenario, open the food_inspections.ipynb notebook and follow the provided instructions to train and save your model and create a Batch web service that makes predictions using the model.
+Look for the food_inspections.ipynb in the AzureML folder[provide folder name]. You can also find this sample file in the git repo.
+
+To run the Batch scenario, open the food_inspections.ipynb notebook and follow the provided instructions to train and save your model and create a Batch web service that makes predictions on a given set of data using the model.
 
 ### Deploying the Batch web service on an HDInsight Cluster
 
-By this step you will have a provisioned an HDInsight Cluster for your web service deployment and your CLI environment should already be set to cluster mode with the environment settings pointing at your HDInsight cluster. 
+By this step you will have a provisioned an HDInsight Cluster for your web service deployment.
 
 Follow the below instructions to deploy your batch web service. 
 Click on the link https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fazuremlbatchtest.blob.core.windows.net%2Ftemplates%2FinstallTemplate.json and provide the Resource Group and name of the HDInsight Cluster. Click purchase. This template installs amlBatch app on your HDInsight Cluster. Leave the node size and count fields as is.
@@ -110,6 +113,19 @@ model.write().overwrite().save('wasb:///HdiSamples/HdiSamples/FoodInspectionData
 Now execute this cell. You may choose to proceed further to execute the remaining cells or skip to continue to create the web service from the CLI.
 
 #### On your machine that has the Azure CLI installed
+
+Set the environment to cluster mode using the below command
+> aml env cluster
+
+Set the following environment variables on your local machine so the CLI web service commands are targeted at your HDInsight Cluster and associated storage.
+
+```
+AML_STORAGE_ACCT_NAME:  <your storage account name>
+AML_STORAGE_ACCT_KEY: <your storage account key>
+AML_HDI_CLUSTER: <the url to your hdinsight cluster. Do not include https://>
+AML_HDI_USER: <your hdinsight user name>
+AML_HDI_PW: <your hdinsight user password>
+```
 
 Copy over batch_score.py from the git repo[add git repo link] on your local machine. 
 This is the pySpark program that will be deployed as the batch scoring web service for your food inspections model.
