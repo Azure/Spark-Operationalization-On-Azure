@@ -19,7 +19,6 @@ You will need configure the following items to complete the scenario.
 3. Provision Azure Container Registry (ACR) to host your web service's container Azure Container Service cluster to host your remote web service.
 4. Provision an HDInsight Spark 2.0 cluster or use an existing one
 
-
 ### Provision DSVM
 
 To start using the Azure ML Private Preview, you must first provision a DSVM. The following steps will guide you through the process.
@@ -53,7 +52,7 @@ Get the ACR password:
 The ACR provisioning will complete quickly. Record the ACR Home, User, and Password information. 
 
 ### Provision ACS (For RRS production "cluster" deployment only)
-click the following and complete the ACS deployment:
+click the following and complete the ACS deployment (this will take up to 20 minutes so start, then continue with the next step):
 
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Famlacstemplateresources.blob.core.windows.net%3A443%2Ftemplates%2Fproduction%2FAmlMesosTemplate.json" target="_blank"><img src="http://azuredeploy.net/deploybutton.png"/></a> 
 
@@ -63,8 +62,7 @@ In Moba xTerm, start a second SSH session. Note: Do not open a new window on you
 In the new SSH session, change directory to the azureml folder:
 
 ```
-cd ~/notebooks/azureml
-```
+cd ~/notebooks/azureml```
 
 Edit the sample_Env.sh file.
 
