@@ -44,7 +44,11 @@ Once you have installed MobaXTerm, open an SSH session to the DSVM.
 ### Provision ACR
 Run the following command to provision your ACR:
 
-	ACR/ACR
+	az acr create --name myRegistry --resource-group myResourceGroup -l southcentralus --storage-account-name myStorageAccount --admin-enabled true
+
+Get the ACR password:
+
+	az acr credential show -n myRegistry
 
 The ACR provisioning will complete quickly. Record the ACR Home, User, and Password information. 
 
