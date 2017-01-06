@@ -8,7 +8,7 @@ The new version of Azure Machine Learning (ML) is powered by Spark, and leverage
 
 The private preview of Azure ML vNext, uses a Data Science VM (DSVM) as the getting started environment. Using the Azure ML Command Line Interface (CLI), you can deploy Spark ML models and pipelines that you create in a Jupyter Notebook written in PySpark.
 
-In this bug bash you deploy and run the web service locally on the DSVM. You then deploy and run the web service remotely on an ACS cluster. 
+In this bug bash you deploy and run the web service locally on the DSVM. You then deploy and run an RRS web service remotely on an ACS cluster or a BES web service on an HDInsight cluster.
 
 ## Prerequisites
 
@@ -86,9 +86,9 @@ To run the RRS scenario, open the realtimewebservices.ipynb notebook and follow 
 
 You can operationalize your model as a batch web service in 2 environments through our private preview offering.
 
-1. Author your model and deploy the web service within a provisioned Data Science VM using the AzureML CLI that will also need to be installed on the Data Science VM. This is your local environment
+1. Author your model and deploy the web service within a provisioned Data Science VM using the AzureML CLI. You will use this option in a dev/test or local environment when you are testing out your web service.
 
-2. Author your model and deploy the web service on a provisioned HDInsight Spark2.0 cluster. You will install the Azure ML CLI on your local Linux or Windows machine. In this case the Azure ML CLI will be operating with the remote environment settings.
+2. Author your model and deploy the web service on a provisioned HDInsight Spark2.0 cluster. Yuu will use this option when you're ready to deploy your web service to production. In this case your Azure ML CLI may be installed on your local Linux or Windows machine and you will be executing the CLI commands in a cluster environment
 
 ### Deploying the Batch web service on a DSVM
 
@@ -110,7 +110,10 @@ Your HDInsight cluster already comes with a Food Inspections Jupyter Notebook Sa
 
 Open the notebook and execute all the cells in this Notebook till you reach the model creation cell. The title above this cell is ‘Create a logistic regression model from the input dataframe’
 Add the below line at the end of this cell to save your model.
+
+```
 model.write().overwrite().save('wasb:///HdiSamples/HdiSamples/FoodInspectionDataModel/')
+```
 
 Now execute this cell. You may choose to proceed further to execute the remaining cells or skip to continue to create the web service from the CLI.
 
