@@ -53,10 +53,9 @@ Get the ACR password:
 The ACR provisioning will complete quickly. Record the ACR Home, User, and Password information. 
 
 ### Provision ACS (For RRS production "cluster" deployment only)
-Run the following command to provision your ACS:
+click the following and complete the ACS deployment:
 
-
-Leave the session open until the ACS setup completes.
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Famlacstemplateresources.blob.core.windows.net%3A443%2Ftemplates%2Fproduction%2FAmlMesosTemplate.json" target="_blank"><img src="http://azuredeploy.net/deploybutton.png"/></a> 
 
 ### Edit the environment config file
 In Moba xTerm, start a second SSH session. Note: Do not open a new window on your current session.
