@@ -68,8 +68,8 @@ In Moba xTerm, start a second SSH session. Note: Do not open a new window on you
 In the new SSH session, change directory to the azureml folder:
 
 ```
-cd ~/notebooks/azureml```
-
+cd ~/notebooks/azureml
+```
 Edit the sample_Env.sh file.
 
 
