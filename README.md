@@ -41,14 +41,21 @@ You will need to SSH into the DSVM. We recommend you use MobaXterm Home Edition.
 
 Once you have installed MobaXTerm, open an SSH session to the DSVM.
 
-Run the following command to provision your ACR and ACS:
+### Provision ACR
+Run the following command to provision your ACR:
 
 	ACR/ACR
 
-The ACR provisioning will complete quickly. Record the ACR Home, User, and Password information. Leave the session open until the ACS setup completes.
+The ACR provisioning will complete quickly. Record the ACR Home, User, and Password information. 
 
+## Provision ACS (For RRS production "cluster" deployment only)
+Run the following command to provision your ACS:
+
+
+Leave the session open until the ACS setup completes.
+
+### Edit the environment config file
 In Moba xTerm, start a second SSH session. Note: Do not open a new window on your current session.
-
 
 In the new SSH session, change directory to the azureml folder:
 
@@ -80,6 +87,7 @@ Jupyter is running on the DSVM at https://&lt;machine-ip-address&gt;:8000. Open 
 
 The notebooks are located in the **AzureML** folder. 
 
+## Deploying an RRS web service
 To run the RRS scenario, open the realtimewebservices.ipynb notebook and follow the provided instructions to train, save, and deploy a model as an RRS web service.  The notebook contains instructions for deploying to the DSVM and for deployment to a production environment using ACS.
 
 ## Deploying the Batch web service
