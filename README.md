@@ -26,7 +26,7 @@ To start using the Azure ML Private Preview, you must first provision a DSVM. Th
 2. Click **New** and then type Linux Data Science Virtual Machine in the search box.
 3. Select Linux Data Science Virtual Machine from the returned results.
 4. Click Linux Data Science Virtual Machine [Staged] and then click **Create** to begin configuring and provisioning the virtual machine. 
-
+>
 When provisioning the DSVM, configure **Authentication type** as Password rather than SSH Public Key. Note: To successfully sign into the Jupyter hub, any alpha characters in the user name must be lower case. Using any upper case characters in the user ID will cause the sign in to the Jupyter hub to fail.
 
 Once the DSVM is provisioned, note the IP address of the machine.
@@ -65,7 +65,7 @@ AML_ACR_USER=
 AML_ACR_PW=
 ```
 
-## Deploy the web service on the DSVM
+## Deploy the RRS web service on the DSVM
 
 Jupyter is running on the DSVM at https://&lt;machine-ip-address&gt;:8000. Open Jupyter in a browser and sign in. The user name and password are the those that you configured for the DSVM.  Note that you will receive a certificate warning that you can safely click through. 
 
@@ -74,6 +74,7 @@ Jupyter is running on the DSVM at https://&lt;machine-ip-address&gt;:8000. Open 
 The notebooks for the bug bash are located in the **AzureML** folder. 
 
 To run the RRS scenario, open the realtimewebservices.ipynb notebook and follow the provided instructions to train, save, and deploy a model as an RRS web service.
+For deployment to production see the Notebook.
 
 ## For Batch service (BES)
 To run a batch job in a production scenario (not on the DSVM), you need to set up an HDI cluster. To setup the HDI cluster, run the following command
