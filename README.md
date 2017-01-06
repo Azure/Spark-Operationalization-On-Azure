@@ -48,7 +48,7 @@ Run the following command to provision your ACR:
 
 The ACR provisioning will complete quickly. Record the ACR Home, User, and Password information. 
 
-## Provision ACS (For RRS production "cluster" deployment only)
+### Provision ACS (For RRS production "cluster" deployment only)
 Run the following command to provision your ACS:
 
 
@@ -79,7 +79,7 @@ AML_ACR_USER=
 AML_ACR_PW=
 ```
 
-## Use the Jupyter notebook to train a model and deploy a RRS web service
+## Jupyter notebook
 
 Jupyter is running on the DSVM at https://&lt;machine-ip-address&gt;:8000. Open Jupyter in a browser and sign in. The user name and password are the those that you configured for the DSVM.  Note that you will receive a certificate warning that you can safely click through. 
 
@@ -87,23 +87,23 @@ Jupyter is running on the DSVM at https://&lt;machine-ip-address&gt;:8000. Open 
 
 The notebooks are located in the **AzureML** folder. 
 
-## Deploying an RRS web service
+### Deploying an RRS web service
 To run the RRS scenario, open the realtimewebservices.ipynb notebook and follow the provided instructions to train, save, and deploy a model as an RRS web service.  The notebook contains instructions for deploying to the DSVM and for deployment to a production environment using ACS.
 
-## Deploying the Batch web service
+### Deploying the Batch web service
 
 You can operationalize your model as a batch web service in 2 environments through our private preview offering.
 
 1. Author your model and deploy the web service within a provisioned Data Science VM using the AzureML CLI. You will use this option in a dev/test or local environment when you are testing out your web service.
 2. Author your model and deploy the web service on a provisioned HDInsight Spark2.0 cluster. Yuu will use this option when you're ready to deploy your web service to production. In this case your Azure ML CLI may be installed on your local Linux or Windows machine and you will be executing the CLI commands in a cluster environment
 
-### Deploying the Batch web service on a DSVM
+#### Deploying the Batch web service on a DSVM
 
 Look for the food_inspections.ipynb in the AzureML folder[provide folder name]. You can also find this sample file in the git repo.
 
 To run the Batch scenario, open the food_inspections.ipynb notebook and follow the provided instructions to train and save your model and create a Batch web service that makes predictions on a given set of data using the model.
 
-### Deploying the Batch web service on an HDInsight Cluster
+#### Deploying the Batch web service on an HDInsight Cluster
 
 By this step you will have a provisioned an HDInsight Cluster for your web service deployment.
 
