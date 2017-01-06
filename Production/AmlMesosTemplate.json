@@ -216,11 +216,11 @@
     },
     "sshRSAPublicKey": {
       "metadata": {
-        "description": "SSH public key used for auth to all Linux machines.  Not Required.  If not set, you must provide a password key."
+        "description": "SSH public key used for auth to all Linux machines. Run ssh-keygen -t rsa -b 2048 -f ~/.ssh/id_rsa to generate the key pair."
       },
       "type": "string"
     },
-	"azureContainerRegistryName": {
+	"azureContainerRegistryLogonServer": {
       "metadata": {
         "description": "Endpoint name for the Azure Container Registry"
       },
@@ -596,7 +596,7 @@
     },
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
 	"acrUsernamePassword": "[concat(parameters('azureContainerRegistryUsername'), ':', parameters('azureContainerRegistryPassword'))]",
-	"slaveDockerConfig": "[concat('{\\\"auths\\\":{\\\"', parameters('azureContainerRegistryName'), '\\\":{\\\"auth\\\":\\\"',base64(variables('acrUsernamePassword')),'\\\"}}}')]"
+	"slaveDockerConfig": "[concat('{\\\"auths\\\":{\\\"', parameters('azureContainerRegistryLogonServer'), '\\\":{\\\"auth\\\":\\\"',base64(variables('acrUsernamePassword')),'\\\"}}}')]"
   },
   "resources": [
     {
@@ -1235,6 +1235,10 @@
     "masterFQDN": {
       "type": "string",
       "value": "[reference(concat('Microsoft.Network/publicIPAddresses/', variables('masterPublicIPAddressName'))).dnsSettings.fqdn]"
+    },
+    "adminUsername" : {
+      "type": "string",
+      "value": "[variables('adminUsername')]"
     }
   }
 }
