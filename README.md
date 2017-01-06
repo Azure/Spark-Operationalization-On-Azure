@@ -101,11 +101,13 @@ To run the Batch scenario, open the food_inspections.ipynb notebook and follow t
 By this step you will have a provisioned an HDInsight Cluster for your web service deployment.
 
 Follow the below instructions to deploy your batch web service. 
-Click on the link https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fazuremlbatchtest.blob.core.windows.net%2Ftemplates%2FinstallTemplate.json and provide the Resource Group and name of the HDInsight Cluster. Click purchase. This template installs amlBatch app on your HDInsight Cluster. Leave the node size and count fields as is.
+
+Click on the link https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fazuremlbatchtest.blob.core.windows.net%2Ftemplates%2FinstallTemplate.json and provide the Resource Group and name of the HDInsight Cluster. Leave the node size and count fields as is. Accept the license terms and click purchase. This template installs amlBatch app on your HDInsight Cluster. 
 
 #### On Your HDInsight Cluster
 
 Your HDInsight cluster already comes with a Food Inspections Jupyter Notebook Sample in the location HdiSamples/HdiSamples/FoodInspectionData.
+
 Open the notebook and execute all the cells in this Notebook till you reach the model creation cell. The title above this cell is ‘Create a logistic regression model from the input dataframe’
 Add the below line at the end of this cell to save your model.
 model.write().overwrite().save('wasb:///HdiSamples/HdiSamples/FoodInspectionDataModel/')
