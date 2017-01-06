@@ -17,6 +17,8 @@ You will need configure the following items to complete the scenario.
 1. Provision a DSVM
 2. Install SSH software to access the DSVM
 3. Provision Azure Container Registry (ACR) to host your web service's container Azure Container Service cluster to host your remote web service.
+4. Provision an HDInsight Spark 2.0 cluster or use an existing one
+
 
 ### Provision DSVM
 
@@ -79,10 +81,41 @@ The notebooks are located in the **AzureML** folder.
 
 To run the RRS scenario, open the realtimewebservices.ipynb notebook and follow the provided instructions to train, save, and deploy a model as an RRS web service.  The notebook contains instructions for deploying to the DSVM and for deployment to a production environment using ACS.
 
-## For Batch service (BES)
-To run a batch job in a production scenario (not on the DSVM), you need to set up an HDI cluster. To setup the HDI cluster, run the following command
+## Deploying the Batch web service
 
-... HDI provisioning command
+You can operationalize your model as a batch web service in 2 environments through our private preview offering.
 
-To run the RRS scenario, open the batchwebservice.ipynb notebook and follow the provided instructions.
+1. Author your model and deploy the web service within a provisioned Data Science VM using the AzureML CLI that will also need to be installed on the Data Science VM. This is your local environment
+
+2. Author your model and deploy the web service on a provisioned HDInsight Spark2.0 cluster. You will install the Azure ML CLI on your local Linux or Windows machine. In this case the Azure ML CLI will be operating with the remote environment settings.
+
+### Deploying the Batch web service on a DSVM
+
+Look for the food_inspections.ipynb in the AzureML folder[provide folder name]. You can also find this sample file in the git repo.To run the Batch scenario, open the food_inspections.ipynb notebook and follow the provided instructions to train and save your model and create a Batch web service that makes predictions using the model.
+
+### Deploying the Batch web service on an HDInsight Cluster
+
+By this step you will have a provisioned an HDInsight Cluster for your web service deployment and your CLI environment should already be set to cluster mode with the environment settings pointing at your HDInsight cluster. 
+
+Follow the below instructions to deploy your batch web service. 
+Click on the link https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fazuremlbatchtest.blob.core.windows.net%2Ftemplates%2FinstallTemplate.json and provide the Resource Group and name of the HDInsight Cluster. Click purchase. This template installs amlBatch app on your HDInsight Cluster. Leave the node size and count fields as is.
+
+#### On Your HDInsight Cluster
+
+Your HDInsight cluster already comes with a Food Inspections Jupyter Notebook Sample in the location HdiSamples/HdiSamples/FoodInspectionData.
+Open the notebook and execute all the cells in this Notebook till you reach the model creation cell. The title above this cell is ‘Create a logistic regression model from the input dataframe’
+Add the below line at the end of this cell to save your model.
+model.write().overwrite().save('wasb:///HdiSamples/HdiSamples/FoodInspectionDataModel/')
+
+Now execute this cell. You may choose to proceed further to execute the remaining cells or skip to continue to create the web service from the CLI.
+
+#### On your machine that has the Azure CLI installed
+
+Copy over batch_score.py from the git repo[add git repo link] on your local machine. 
+This is the pySpark program that will be deployed as the batch scoring web service for your food inspections model.
+On the command prompt on your machine, type the following CLI command to deploy your web service.
+
+>aml service create batch -n batch_score_webservice -i --input-data -i --trained-model='wasb:///HdiSamples/HdiSamples/FoodInspectionDataModel’ -o --output-data
+
+This command creates your web service and saves it in the storage associated with the HDInsight cluster. After the web service is created, you will see instructions to run jobs against this web service.
 
