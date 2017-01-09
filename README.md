@@ -6,48 +6,75 @@ The new version of Azure Machine Learning (ML) is powered by Spark, and leverage
 
 ## Scope
 
-The private preview of Azure ML vNext, uses a Data Science VM (DSVM) as the getting started environment. Using the Azure ML Command Line Interface (CLI), you can deploy Spark ML models and pipelines that you create in a Jupyter Notebook written in PySpark.
+The private preview of Azure ML vNext, uses a Data Science VM (DSVM) as the getting started environment. Using the Azure ML Command Line Interface (CLI), you can deploy Spark ML models and pipelines that you create in a Jupyter Notebook written in PySpark. 
 
-In this bug bash you deploy and run the web service locally on the DSVM. You then deploy and run an RRS web service remotely on an ACS cluster or a BES web service on an HDInsight cluster.
+In this private preview scenario you will deploy and run web services locally on the DSVM. You will then deploy and run an RRS web service remotely on an ACS cluster or a BES web service on an HDInsight cluster.
+
+Most of the features of the private preview are available for anyone. To use the Azure ML CLI, you must have an API key. If you have not been officially on boarded as part of the private preview, you can obtain an API key by emailing raymondl@microsoft.com. 
 
 ## Prerequisites
 
-You will need configure the following items to complete the scenario.
+You need configure the following items to complete the scenario.
 
 1. Provision a DSVM
-2. Install SSH software to access the DSVM
+2. Choose or create a storage account in which to store web service information.
+2. Install SSH software to access the DSVM.
+3. Install the Azure CLI version 2.0 on the DSVM.
 3. Provision Azure Container Registry (ACR) to host your web service's container Azure Container Service cluster to host your remote web service.
-4. Provision an HDInsight Spark 2.0 cluster or use an existing one
+4. For the real-time scenario, provision an Azure Container Service instance.
+4. For the batch scenario, provision an HDInsight Spark 2.0 cluster or use an existing one.
 
 ### Provision DSVM
 
-To start using the Azure ML Private Preview, you must first provision a DSVM. The following steps will guide you through the process.
+To start using the Azure ML Private Preview, you must first provision a DSVM. 
+
+The following steps will guide you through the process.
 
 1. Sign in to the [Azure portal](https://portal.azure.com).
 2. Click **New** and then type Linux Data Science Virtual Machine in the search box.
 3. Select Linux Data Science Virtual Machine from the returned results.
-4. Click Linux Data Science Virtual Machine [Staged] and then click **Create** to begin configuring and provisioning the virtual machine. 
-
-When provisioning the DSVM, configure **Authentication type** as Password rather than SSH Public Key. 
-
-**Important**: To successfully sign into the Jupyter hub, any alpha characters in the user name must be lower case. Using any upper case characters in the user ID will cause the sign in to the Jupyter hub to fail.
+4. Click **Linux Data Science Virtual Machine [Staged]** and then click **Create** to begin configuring and provisioning the virtual machine. 
+	1. When provisioning the DSVM, configure **Authentication type** as Password rather than SSH Public Key. 
+	2. **Important**: To successfully sign into the Jupyter hub, any alpha characters in the user name must be lower case. Using any upper case characters in the user ID will cause the sign in to the Jupyter hub to fail.
 
 Once the DSVM is provisioned, note the IP address of the machine.
 
-While in the Azure portal, record the information for the storage account you will use. You can use and existing account or create a new one.
+### Storage account
+
+While in the Azure portal, choose or create a storage account in which to store web service information. Record the storage account name and access key to use later.
+
+### Install the SSH software 
 
 You will need to SSH into the DSVM. We recommend you use MobaXterm Home Edition. You can install the MobaXterm software from [http://mobaxterm.mobatek.net/download-home-edition.html](http://mobaxterm.mobatek.net/download-home-edition.html).
 
 Once you have installed MobaXTerm, open an SSH session to the DSVM.
 
-Run this command in SSH session:
+Run the following command in SSH session:
 
 	$ wget -q http://ritbhatrrs.blob.core.windows.net/release/dsvmsimplesetup.sh -O - | sudo bash /dev/stdin $USER
 
-Then log out and log back in.
+Then sign out of the DSVM and then sign back in.
 
-### Provision ACR
-Run the following command to provision your ACR:
+### Install the Azure CLI version 2
+
+To install the CLI, start an SSH session in Moba xTerm. Then run the following command:
+
+	sudo /anaconda/envs/py35/bin/pip install azure-cli 
+
+### Provision the ACR
+
+To provision the ACR, you must run the Azure CLI acr create command. 
+
+
+The requires the following parameters:
+
+* name - A name that you supply for the registry.
+* resource-group - A resource group in your subscription, this can be an existing group or one that you create for the private preview.
+* l - The region in which the acr is created. At this time you can only create an ACR in ....
+* storage-account-name - Use the storage account you selected earlier.
+* admin-enabled - Set to **true**.
+
+The following is an example of the acr create command, replace the parameters with values that you supply:
 
 	az acr create --name myRegistry --resource-group myResourceGroup -l southcentralus --storage-account-name myStorageAccount --admin-enabled true
 
@@ -58,11 +85,13 @@ Get the ACR password:
 The ACR provisioning will complete quickly. Record the ACR Home, User, and Password information. 
 
 ### Provision ACS (For RRS production "cluster" deployment only)
+
 click the following and complete the ACS deployment (this will take up to 20 minutes so start, then continue with the next step):
 
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Famlacstemplateresources.blob.core.windows.net%3A443%2Ftemplates%2Fproduction%2FAmlMesosTemplate.json" target="_blank"><img src="http://azuredeploy.net/deploybutton.png"/></a> 
 
-### Edit the environment config file
+### Edit the environment configuration file
+
 In Moba xTerm, start a second SSH session. Note: Do not open a new window on your current session.
 
 In the new SSH session, change directory to the azureml folder:
@@ -70,6 +99,7 @@ In the new SSH session, change directory to the azureml folder:
 ```
 cd ~/notebooks/azureml
 ```
+
 Edit the sample_Env.sh file.
 
 
@@ -89,26 +119,30 @@ AML_ACR_PW=
 ## Jupyter notebook
 
 Jupyter is running on the DSVM at https://&lt;machine-ip-address&gt;:8000. Open Jupyter in a browser and sign in. The user name and password are the those that you configured for the DSVM.  Note that you will receive a certificate warning that you can safely click through. 
-#
+
 ### Run the Notebook 
 
 The notebooks are located in the **AzureML** folder. 
 
+**Note**: There are notebooks for both the RRS and Batch web service scenarios. Jupyter does not allow multiple notebooks to be running at the same time. Once you have finished with one scenario, stop the notebook before starting the next one. To stop the notebook:
+
+* If you are still in the notebook, select **File** and then click **Close and Halt**.
+* Otherwise, open the azureml folder, click the checkbox to select the notebook and then click **Shutdown**.
+
 ### Deploying an RRS web service
+
 To run the RRS scenario, open the realtimewebservices.ipynb notebook and follow the provided instructions to train, save, and deploy a model as an RRS web service.  The notebook contains instructions for deploying to the DSVM and for deployment to a production environment using ACS.
 
 ### Deploying the Batch web service
 
-You can operationalize your model as a batch web service in 2 environments through our private preview offering.
+You can operationalize your model as a batch web service in two environments through our private preview offering.
 
 1. Author your model and deploy the web service within a provisioned Data Science VM using the AzureML CLI. You will use this option in a dev/test or local environment when you are testing out your web service.
-2. Author your model and deploy the web service on a provisioned HDInsight Spark2.0 cluster. Yuu will use this option when you're ready to deploy your web service to production. In this case your Azure ML CLI may be installed on your local Linux or Windows machine and you will be executing the CLI commands in a cluster environment
+2. Author your model and deploy the web service on a provisioned HDInsight Spark2.0 cluster. You will use this option when you're ready to deploy your web service to production. In this case you can install Azure ML CLI on your local Linux or Windows machine and execute the CLI commands in a cluster environment
 
 #### Deploying the Batch web service on a DSVM
 
-Look for the food_inspections.ipynb in the AzureML folder[provide folder name]. You can also find this sample file in the git repo.
-
-To run the Batch scenario, open the food_inspections.ipynb notebook and follow the provided instructions to train and save your model and create a Batch web service that makes predictions on a given set of data using the model.
+To run the Batch scenario, open Jupyter in a browser and sign in. The user name and password are the those that you configured for the DSVM. Ipen  the azureml folde and then click on the food_inspections.ipynb notebook. You can also find this sample file in the git repo. Follow the provided instructions to train and save your model and create a Batch web service that makes predictions on a given set of data using the model.
 
 #### Deploying the Batch web service on an HDInsight Cluster
 
@@ -132,6 +166,7 @@ model.write().overwrite().save('wasb:///HdiSamples/HdiSamples/FoodInspectionData
 Now execute this cell. You may choose to proceed further to execute the remaining cells or skip to continue to create the web service from the CLI.
 
 ##### On your local machine 
+
 Perform the following steps on either your Linux or Windows machine that has Python installed.
 
 Install the Azure Machine Learning CLI using the following pip command
