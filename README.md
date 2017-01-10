@@ -153,7 +153,6 @@ To run the Batch scenario, open Jupyter in a browser and sign in. The user name 
 If you haven't already, provision your HDInsight Spark 2.0 cluster now. Go to https://ms.portal.azure.com, click New and type in HDInsight to start provisioning your cluster. After the cluster deployment is complete you will need to install the Batch application on it so the cluster is ready to execute on the commands submitted through the CLI from your local machine.
 
 To install the AMLBatch app on your HDInsight cluster, click the following link: 
-
 [https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fazuremlbatchtest.blob.core.windows.net%2Ftemplates%2FinstallTemplate.json](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fazuremlbatchtest.blob.core.windows.net%2Ftemplates%2FinstallTemplate.json)
 
 When the template opens, provide the Resource Group and name of the HDInsight Cluster where the web service will be deployed. Leave the node size and count fields as is. Accept the license agreement and click **purchase**.
@@ -163,6 +162,7 @@ When the template opens, provide the Resource Group and name of the HDInsight Cl
 Your HDInsight cluster already comes with a Food Inspections Jupyter Notebook Sample in the folder located at  HdiSamples/HdiSamples/FoodInspectionData.
 
 Open the notebook and execute all the cells in it till you reach the model creation cell. The title for this cell is ‘Create a logistic regression model from the input dataframe’.
+
 
 Add the following line at the end of this cell to save your model.
 
@@ -180,12 +180,17 @@ Install the Azure Machine Learning CLI using the following pip command:
 
 ```
 pip install azuremlcli --extra-index-url https://pypi-amlbd.southcentralus.cloudapp.azure.com/simple --trusted-host pypi-amlbd.southcentralus.cloudapp.azure.com --upgrade
-
+```
+If you're installing the CLI on a windows machine, you will need to append **--ignore-installed** to your pip command:
+```
+pip install azuremlcli --extra-index-url https://pypi-amlbd.southcentralus.cloudapp.azure.com/simple --trusted-host pypi-amlbd.southcentralus.cloudapp.azure.com --upgrade --ignore-installed
+```
+You will be prompted for a username and password:
+```
 user: pypi
 password: aml$parkR0cks
 ```
-
-Run the following command to set your CLI environment to run in cluster mode.
+Once the CLI is successfully installed/upgraded, run the following command to set your CLI environment to run in cluster mode.
 
 ```
 aml env cluster
