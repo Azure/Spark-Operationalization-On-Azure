@@ -19,12 +19,11 @@ sc = SparkContext.getOrCreate()
 sqlContext = SQLContext.getOrCreate(sc)
 
 parser = argparse.ArgumentParser()
-parser.add_argument("input-data")
-parser.add_argument("output-data")
+parser.add_argument("--input-data")
+parser.add_argument("--output-data")
 
 args = parser.parse_args()
 print str(args.input_data)
-print str(args.trained_model)
 print str(args.output_data)
 
 def csvParse(s):
@@ -35,7 +34,7 @@ def csvParse(s):
     sio.close()
     return value
 
-model = PipelineModel.load(str(args.trained_model))
+model = PipelineModel.load('wasb:///HdiSamples/HdiSamples/FoodInspectionModel/')
 
 testData = sc.textFile(str(args.input_data))\
              .map(csvParse) \
@@ -50,4 +49,4 @@ testDf = sqlContext.createDataFrame(testData, schema).where("results = 'Fail' OR
 
 predictionsDf = model.transform(testDf)
 
-predictionsDf.write.parquet('wasb:///HdiSamples/HdiSamples/FoodInspectionDataModel')
+predictionsDf.write.parquet(str(args.output_data))
