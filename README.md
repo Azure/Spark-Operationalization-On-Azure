@@ -8,7 +8,7 @@ The new version of Azure Machine Learning (ML) is powered by Spark, and leverage
 
 The private preview of Azure ML vNext, uses a Data Science VM (DSVM) as the getting started environment. Using the Azure ML Command Line Interface (CLI), you can deploy Spark ML models and pipelines that you create in a Jupyter Notebook written in PySpark. 
 
-In this private preview scenario you will deploy and run web services locally on the DSVM. You will then deploy and run an RRS web service remotely on an ACS cluster or a BES web service on an HDInsight cluster.
+In this private preview scenario, you will deploy and run web services locally on the DSVM. You will then deploy and run an RRS web service remotely on an ACS cluster or a BES web service on an HDInsight cluster.
 
 Most of the features of the private preview are available for anyone. To use the Azure ML CLI, you must have an API key. If you have not been officially on boarded as part of the private preview, you can obtain an API key by emailing raymondl@microsoft.com. 
 
@@ -35,7 +35,7 @@ The following steps will guide you through the process.
 3. Select Linux Data Science Virtual Machine from the returned results.
 4. Click **Linux Data Science Virtual Machine [Staged]** and then click **Create** to begin configuring and provisioning the virtual machine. 
 	1. When provisioning the DSVM, configure **Authentication type** as Password rather than SSH Public Key. 
-	2. **Important**: To successfully sign into the Jupyter hub, any alpha characters in the user name must be lower case. Using any upper case characters in the user ID will cause the sign in to the Jupyter hub to fail.
+	2. **Important**: To successfully sign into the Jupyter hub, any alpha characters in the user name must be lower case. Using any upper-case characters in the user ID will cause the sign in to the Jupyter hub to fail.
 
 Once the DSVM is provisioned, note the IP address of the machine.
 
@@ -63,14 +63,18 @@ To install the CLI, start an SSH session in Moba xTerm. Then run the following c
 
 ### Provision the ACR
 
+Sign in to the azure cli on the DSVM using the ```az login``` command.
+Open a browser on your local machine and navigate to ```https://aka.ms/devicelogin```. Enter the authentication code and follow the prompts.
+
 To provision the ACR, you must run the Azure CLI acr create command. 
+
 
 
 The requires the following parameters:
 
 * name - A name that you supply for the registry.
-* resource-group - A resource group in your subscription, this can be an existing group or one that you create for the private preview.
-* l - The region in which the acr is created. At this time you can only create an ACR in ....
+* resource-group - A resource group in your subscription, this can be an existing group or one that you create for the private preview. Note that the resource group must be in the same region as the ACR.
+* l - The region in which the ACR is created. At this time, you can only create an ACR in eastus,southcenteralus, and westus.
 * storage-account-name - Use the storage account you selected earlier.
 * admin-enabled - Set to **true**.
 
@@ -122,7 +126,7 @@ Jupyter is running on the DSVM at https://&lt;machine-ip-address&gt;:8000. Open 
 
 ### Run the Notebook 
 
-The notebooks are located in the **AzureML** folder. 
+The notebooks are located in the **azureml** folder. 
 
 **Note**: There are notebooks for both the RRS and Batch web service scenarios. Jupyter does not allow multiple notebooks to be running at the same time. Once you have finished with one scenario, stop the notebook before starting the next one. To stop the notebook:
 
@@ -137,16 +141,16 @@ To run the RRS scenario, open the realtimewebservices.ipynb notebook and follow 
 
 You can operationalize your model as a batch web service in two environments through the private preview offering.
 
-1. Author your model and deploy the web service within a provisioned Data Science VM using the AzureML CLI. You use this option in a dev/test or local environment when you are testing out your web service.
-2. Author your model and deploy the web service on a provisioned HDInsight Spark 2.0 cluster. You use this option when you're ready to deploy your web service to production. In this case you can install Azure ML CLI on your local Linux or Windows machine and execute the CLI commands in a cluster environment
+1. Author your model and deploy the web service within a provisioned Data Science VM using the Azure ML CLI. You use this option in a dev/test or local environment when you are testing out your web service.
+2. Author your model and deploy the web service on a provisioned HDInsight Spark 2.0 cluster. You use this option when you're ready to deploy your web service to production. In this case, you can install Azure ML CLI on your local Linux or Windows machine and execute the CLI commands in a cluster environment
 
 #### Deploying the Batch web service on a DSVM
 
-To run the Batch scenario, open Jupyter in a browser and sign in. The user name and password are the those that you configured for the DSVM. Ipen  the azureml folde and then click on the food_inspections.ipynb notebook. You can also find this sample file in the git repo. Follow the provided instructions to train and save your model and create a Batch web service that makes predictions on a given set of data using the model.
+To run the Batch scenario, open Jupyter in a browser and sign in. The user name and password are the those that you configured for the DSVM. Open  the azureml folder and then click on the food_inspections.ipynb notebook. You can also find this sample file in the git repo. Follow the provided instructions to train and save your model and create a Batch web service that makes predictions on a given set of data using the model.
 
 #### Deploying the Batch web service on an HDInsight Cluster
 
-By this step you will have a provisioned an HDInsight Cluster for your web service deployment.
+By this step, you will have a provisioned an HDInsight Cluster for your web service deployment.
 
 To install the AMLBatch app on your HDInsight cluster, click the following link: 
 
@@ -200,7 +204,7 @@ AML_HDI_PW: <your hdinsight user password>
 
 Copy the batch_score.py from the [Azure ML vNext git repo](https://github.com/Azure/AzureML-vNext) to your local machine. 
 
-This is the pySpark script that defines scoring web service for your food inspections model.
+This is the PySpark script that defines scoring web service for your food inspections model.
 
 From the command prompt on your machine, type the following CLI command to deploy your web service:
 
