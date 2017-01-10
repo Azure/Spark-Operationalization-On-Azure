@@ -47,7 +47,7 @@ While in the Azure portal, choose or create a storage account in which to store 
 
 You will need to SSH into the DSVM. We recommend you use MobaXterm Home Edition. You can install the MobaXterm software from [http://mobaxterm.mobatek.net/download-home-edition.html](http://mobaxterm.mobatek.net/download-home-edition.html).
 
-Once you have installed MobaXTerm, open an SSH session to the DSVM.
+Once you have installed MobaXterm, open an SSH session to the DSVM.
 
 Run the following command in SSH session:
 
@@ -150,7 +150,14 @@ To run the Batch scenario, open Jupyter in a browser and sign in. The user name 
 
 #### Deploying the Batch web service on an HDInsight Cluster
 
-If you haven't already, provision your HDInsight Spark 2.0 cluster now. Go to https://ms.portal.azure.com, click New and type in HDInsight to start provisioning your cluster. After the cluster deployment is complete you will need to install the Batch application on it so the cluster is ready to execute on the commands submitted through the CLI from your local machine.
+If you haven't already, provision a HDInsight Spark 2.0 cluster. 
+
+To provision an HDInsight Spark 2.0 cluster:
+
+1. Sign in to the the [Azure portal](https://portal.azure.com)
+2. click **New** and type HDInsight
+
+After the cluster deployment is complete must install the Azure Machine Learning Batch application to enable the cluster to execute on the commands submitted through the Azure ML CLI from your local machine.
 
 To install the AMLBatch app on your HDInsight cluster, click the following link: 
 [https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fazuremlbatchtest.blob.core.windows.net%2Ftemplates%2FinstallTemplate.json](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fazuremlbatchtest.blob.core.windows.net%2Ftemplates%2FinstallTemplate.json)
