@@ -1,9 +1,9 @@
-//if you are planning to deploy your web service to an HDInsight cluster, be sure to do the following before creating your web service:
-// run the cells of the Notebook sample: 05 - Spark Machine Learning - Predictive analysis on food inspection data using MLLib
-// this Jupyter sample exists with every provisioned HDInsight Spark2.0 cluster
-// the sample web service we will be creating will be using the model from this sample. 
-// add a cell right after a model is created (model.fit()) to save the model.
-// model.save('wasb:///HdiSamples/HdiSamples/FoodInspectionDataModel/') 
+#if you are planning to deploy your web service to an HDInsight cluster, be sure to do the following before creating your web service:
+# run the cells of the Notebook sample: 05 - Spark Machine Learning - Predictive analysis on food inspection data using MLLib
+# this Jupyter sample exists with every provisioned HDInsight Spark2.0 cluster
+# the sample web service we will be creating will be using the model from this sample. 
+# add a cell right after a model is created (model.fit()) to save the model.
+# model.save('wasb:///HdiSamples/HdiSamples/FoodInspectionDataModel/') 
 
 from pyspark import SparkContext
 from pyspark.sql import SQLContext
@@ -19,8 +19,8 @@ sc = SparkContext.getOrCreate()
 sqlContext = SQLContext.getOrCreate(sc)
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--input-data")
-parser.add_argument("--output-data")
+parser.add_argument("input-data")
+parser.add_argument("output-data")
 
 args = parser.parse_args()
 print str(args.input_data)
