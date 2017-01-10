@@ -181,6 +181,8 @@ Install the Azure Machine Learning CLI using the following pip command:
 ```
 pip install azuremlcli --extra-index-url https://pypi-amlbd.southcentralus.cloudapp.azure.com/simple --trusted-host pypi-amlbd.southcentralus.cloudapp.azure.com --upgrade
 
+user: pypi
+password: aml$parkR0cks
 ```
 
 Run the following command to set your CLI environment to run in cluster mode.
