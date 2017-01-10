@@ -68,9 +68,7 @@ Open a browser on your local machine and navigate to ```https://aka.ms/devicelog
 
 To provision the ACR, you must run the Azure CLI acr create command. 
 
-
-
-The requires the following parameters:
+The acr create command requires the following parameters:
 
 * name - A name that you supply for the registry.
 * resource-group - A resource group in your subscription, this can be an existing group or one that you create for the private preview. Note that the resource group must be in the same region as the ACR.
