@@ -171,7 +171,7 @@ Open the notebook and execute all the cells in it till you reach the model creat
 
 Add the following line at the end of this cell to save your model.
 
-```
+-```
 model.write().overwrite().save('wasb:///HdiSamples/HdiSamples/FoodInspectionModel/')
 ```
 
@@ -235,7 +235,7 @@ This is the web service definition file that defines the inputs that your web se
 From the command prompt on your machine, type the following CLI command to deploy your web service:
 
 ```
-aml service create batch -n batch_webservice -f batch_score.py --input=input-data --output=output-data
+aml service create batch -n batch_webservice -f batch_score.py --input=--input-data --output=--output-data
 ```
 
 This command creates your web service using the provided web service definition file(batch_score.py) and saves it in the storage associated with the HDInsight cluster. 
