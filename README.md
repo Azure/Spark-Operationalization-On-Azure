@@ -170,7 +170,7 @@ Add the following line at the end of this cell to save your model.
 model.write().overwrite().save('wasb:///HdiSamples/HdiSamples/FoodInspectionModel/')
 ```
 
-Execute this cell. You can choose to proceed further to execute the remaining cells or skip to continue to create the web service from the CLI.
+Could not connect to ACS cluster. Continue with cluster mode anyway (y/N)? yExecute this cell. You can choose to proceed further to execute the remaining cells or skip to continue to create the web service from the CLI.
 
 ##### On your local machine 
 
@@ -195,7 +195,16 @@ Once the CLI is successfully installed/upgraded, run the following command to se
 ```
 aml env cluster
 ```
+You will see the below prompt:
+```
+Would you like to set up port forwarding to your ACS cluster (Y/n)? n
+```
+Type **n** at the above prompt since you are not running the RRS scenario on ACS.
 
+Type **y** to continue with cluster mode at the below prompt:
+```
+Could not connect to ACS cluster. Continue with cluster mode anyway (y/N)? y
+```
 
 To target the HDInsight Cluster and associated storage, set the following environment variables.
 
@@ -207,6 +216,12 @@ AML_STORAGE_ACCT_KEY: <your storage account key>
 AML_HDI_CLUSTER: <the url to your hdinsight cluster. Do not include https://>
 AML_HDI_USER: <your hdinsight user name>
 AML_HDI_PW: <your hdinsight user password>
+
+example command for linux:
+export AML_STORAGE_ACCT_NAME=<name>
+
+example command for windows:
+set AML_STORAGE_ACCT_NAME=<name>
 ```
 
 Copy the batch_score.py from the [Azure ML vNext git repo](https://github.com/Azure/AzureML-vNext) to your local machine. 
