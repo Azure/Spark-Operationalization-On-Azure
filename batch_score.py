@@ -19,8 +19,8 @@ sc = SparkContext.getOrCreate()
 sqlContext = SQLContext.getOrCreate(sc)
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--input-data")
-parser.add_argument("--output-data")
+parser.add_argument("input-data")
+parser.add_argument("output-data")
 
 args = parser.parse_args()
 print str(args.input_data)
