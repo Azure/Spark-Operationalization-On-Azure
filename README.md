@@ -108,6 +108,7 @@ Edit the sample_Env.sh file.
 ```
 nano sample_env.sh
 ```
+
 use the the information that you saved from the ACR create command output and the storage account credentials to update the following environment variables:
 
 ```
@@ -142,8 +143,14 @@ You can operationalize your model as a batch web service in two environments thr
 2. Author your model and deploy the web service on a provisioned HDInsight Spark 2.0 cluster. You use this option when you're ready to deploy your web service to production. In this case, you can install Azure ML CLI on your local Linux or Windows machine and execute the CLI commands in a cluster environment
 
 #### Deploying the Batch web service on a DSVM
-
-To run the Batch scenario, open Jupyter in a browser and sign in. The user name and password are the those that you configured for the DSVM. Open  the azureml folder and then click on the food_inspections.ipynb notebook. You can also find this sample file in the git repo. Follow the provided instructions to train and save your model and create a Batch web service that makes predictions on a given set of data using the model.
+Below are the steps for creating your batch web service on the DSVM:
+Launch a browser window on your local machine and provide the following address URL:
+```
+https://<ip address of your data science VM>:8000
+```
+The user name and password are the those that you configured for the DSVM. 
+upload the batchwebservice.ipynb sample file from the github link: https://github.com/Azure/AzureML-vNext through the Jupyter interface. 
+Follow the instructions in this sample file to train and save your model and create a Batch web service that makes predictions on a given set of data using the model.
 
 #### Deploying the Batch web service on an HDInsight Cluster
 
