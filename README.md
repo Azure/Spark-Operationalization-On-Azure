@@ -135,10 +135,10 @@ To run the RRS scenario, open the realtimewebservices.ipynb notebook and follow 
 
 ### Deploying the Batch web service
 
-You can operationalize your model as a batch web service in two environments through our private preview offering.
+You can operationalize your model as a batch web service in two environments through the private preview offering.
 
-1. Author your model and deploy the web service within a provisioned Data Science VM using the AzureML CLI. You will use this option in a dev/test or local environment when you are testing out your web service.
-2. Author your model and deploy the web service on a provisioned HDInsight Spark2.0 cluster. You will use this option when you're ready to deploy your web service to production. In this case you can install Azure ML CLI on your local Linux or Windows machine and execute the CLI commands in a cluster environment
+1. Author your model and deploy the web service within a provisioned Data Science VM using the AzureML CLI. You use this option in a dev/test or local environment when you are testing out your web service.
+2. Author your model and deploy the web service on a provisioned HDInsight Spark 2.0 cluster. You use this option when you're ready to deploy your web service to production. In this case you can install Azure ML CLI on your local Linux or Windows machine and execute the CLI commands in a cluster environment
 
 #### Deploying the Batch web service on a DSVM
 
@@ -148,38 +148,47 @@ To run the Batch scenario, open Jupyter in a browser and sign in. The user name 
 
 By this step you will have a provisioned an HDInsight Cluster for your web service deployment.
 
-Follow the below instructions to deploy your batch web service. 
+To install the AMLBatch app on your HDInsight cluster, click the following link: 
 
-Click on the link https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fazuremlbatchtest.blob.core.windows.net%2Ftemplates%2FinstallTemplate.json and provide the Resource Group and name of the HDInsight Cluster. Leave the node size and count fields as is. Accept the license terms and click purchase. This template installs amlBatch app on your HDInsight Cluster. 
+[https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fazuremlbatchtest.blob.core.windows.net%2Ftemplates%2FinstallTemplate.json](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fazuremlbatchtest.blob.core.windows.net%2Ftemplates%2FinstallTemplate.json)
+
+When the template opens, provide the Resource Group and name of the HDInsight Cluster where the web service will be deployed. Leave the node size and count fields as is. Accept the license agreement and click **purchase**.
 
 ##### On Your HDInsight Cluster
 
-Your HDInsight cluster already comes with a Food Inspections Jupyter Notebook Sample in the location HdiSamples/HdiSamples/FoodInspectionData.
+Your HDInsight cluster already comes with a Food Inspections Jupyter Notebook Sample in the folder located at  HdiSamples/HdiSamples/FoodInspectionData.
 
-Open the notebook and execute all the cells in it till you reach the model creation cell. The title above this cell is ‘Create a logistic regression model from the input dataframe’
-Add the below line at the end of this cell to save your model.
+Open the notebook and execute all the cells in it till you reach the model creation cell. The title for this cell is ‘Create a logistic regression model from the input dataframe’.
+
+Add the following line at the end of this cell to save your model.
 
 ```
 model.write().overwrite().save('wasb:///HdiSamples/HdiSamples/FoodInspectionDataModel/')
 ```
 
-Now execute this cell. You may choose to proceed further to execute the remaining cells or skip to continue to create the web service from the CLI.
+Execute this cell. You can choose to proceed further to execute the remaining cells or skip to continue to create the web service from the CLI.
 
 ##### On your local machine 
 
-Perform the following steps on either your Linux or Windows machine that has Python installed.
+Perform the following steps on a Linux or Windows machine that has Python installed.
 
-Install the Azure Machine Learning CLI using the following pip command
+Install the Azure Machine Learning CLI using the following pip command:
+
 ```
 pip install azuremlcli --extra-index-url https://pypi-amlbd.southcentralus.cloudapp.azure.com/simple --trusted-host pypi-amlbd.southcentralus.cloudapp.azure.com --upgrade
+
 ```
-Set the environment to cluster mode using the below command
+
+Run the following command to set your CLI environment to run in cluster mode.
 
 ```
 aml env cluster
 ```
 
-Set the following environment variables on your local machine so the CLI web service commands are targeted at your HDInsight Cluster and associated storage.
+
+To target the HDInsight Cluster and associated storage, set the following environment variables.
+
+**Important**: Make sure the storage account you use is the one that's associated with your HDInsight Cluster, 
 
 ```
 AML_STORAGE_ACCT_NAME:  <your storage account name>
@@ -189,15 +198,18 @@ AML_HDI_USER: <your hdinsight user name>
 AML_HDI_PW: <your hdinsight user password>
 ```
 
-Copy over batch_score.py from the git repo[add git repo link] on your local machine. 
-This is the pySpark program that will be deployed as the batch scoring web service for your food inspections model.
-On the command prompt on your machine, type the following CLI command to deploy your web service.
+Copy the batch_score.py from the [Azure ML vNext git repo](https://github.com/Azure/AzureML-vNext) to your local machine. 
+
+This is the pySpark script that defines scoring web service for your food inspections model.
+
+From the command prompt on your machine, type the following CLI command to deploy your web service:
 
 ```
 aml service create batch -n batch_score_webservice -input --input-data -input --trained-model='wasb:///HdiSamples/HdiSamples/FoodInspectionDataModel’ -output --output-data
 ```
 
 This command creates your web service and saves it in the storage associated with the HDInsight cluster. 
+
 Run the following command for guidance on calling the web service:
 
 ```
