@@ -192,7 +192,7 @@ pip install azuremlcli --extra-index-url https://pypi-amlbd.southcentralus.cloud
 You will be prompted for a username and password:
 ```
 user: pypi
-password: aml$parkR0cks
+Rpassword: aml$parkR0cks
 ```
 Once the CLI is successfully installed/upgraded, run the following command to set your CLI environment to run in cluster mode.
 
@@ -245,3 +245,9 @@ Run the following command for guidance on calling the web service:
 ```
 aml service view batch -n batch_webservice
 ```
+Run the following command for calling jobs against the web service you created
+
+```
+aml service run batch -n batch_webservice --input=--input-data:wasb://HdiSamples/HdiSamples/FoodInspectionData/Food_Inspections1.csv --output=--output-data:wasb://HdiSamples/HdiSamples/FoodInspectionWebServiceOutput -w
+```
+The **-w** parameter indicates a synchronous call, i.e. wait till the job run completes.
