@@ -170,7 +170,7 @@ Add the following line at the end of this cell to save your model.
 model.write().overwrite().save('wasb:///HdiSamples/HdiSamples/FoodInspectionModel/')
 ```
 
-Could not connect to ACS cluster. Continue with cluster mode anyway (y/N)? yExecute this cell. You can choose to proceed further to execute the remaining cells or skip to continue to create the web service from the CLI.
+Execute this cell. You can choose to proceed further to execute the remaining cells or skip to continue to create the web service from the CLI.
 
 ##### On your local machine 
 
