@@ -150,7 +150,7 @@ To run the Batch scenario, open Jupyter in a browser and sign in. The user name 
 
 #### Deploying the Batch web service on an HDInsight Cluster
 
-By this step, you will have a provisioned an HDInsight Cluster for your web service deployment.
+If you haven't already, provision your HDInsight Spark 2.0 cluster now. Go to https://ms.portal.azure.com, click New and type in HDInsight to start provisioning your cluster. After the cluster deployment is complete you will need to install the Batch application on it so the cluster is ready to execute on the commands submitted through the CLI from your local machine.
 
 To install the AMLBatch app on your HDInsight cluster, click the following link: 
 
@@ -204,18 +204,18 @@ AML_HDI_PW: <your hdinsight user password>
 
 Copy the batch_score.py from the [Azure ML vNext git repo](https://github.com/Azure/AzureML-vNext) to your local machine. 
 
-This is the PySpark script that defines scoring web service for your food inspections model.
+This is the web service definition file that defines the inputs that your web service will expect and the outputs it will produce. You will need to provide these input and output parameters as commandline arguments when calling the web service create command from the Azure Machine Learning CLI
 
 From the command prompt on your machine, type the following CLI command to deploy your web service:
 
 ```
-aml service create batch -n batch_score_webservice -input --input-data -input --trained-model='wasb:///HdiSamples/HdiSamples/FoodInspectionDataModel’ -output --output-data
+aml service create batch -n batch_webservice -f batch_score.py --input:input-data --output=output-data
 ```
 
-This command creates your web service and saves it in the storage associated with the HDInsight cluster. 
+This command creates your web service using the provided web service definition file(batch_score.py) and saves it in the storage associated with the HDInsight cluster. 
 
 Run the following command for guidance on calling the web service:
 
 ```
-aml service view batch -n batch_score_webservice
+aml service view batch -n batch_webservice
 ```
