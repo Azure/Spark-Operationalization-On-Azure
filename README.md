@@ -177,7 +177,6 @@ Execute this cell. You can choose to proceed further to execute the remaining ce
 Perform the following steps on a Linux or Windows machine that has Python installed.
 
 Install the Azure Machine Learning CLI using the following pip command:
-
 ```
 pip install azuremlcli --extra-index-url https://pypi-amlbd.southcentralus.cloudapp.azure.com/simple --trusted-host pypi-amlbd.southcentralus.cloudapp.azure.com --upgrade
 ```
@@ -231,7 +230,7 @@ This is the web service definition file that defines the inputs that your web se
 From the command prompt on your machine, type the following CLI command to deploy your web service:
 
 ```
-aml service create batch -n batch_webservice -f batch_score.py --input:input-data --output=output-data
+aml service create batch -n batch_webservice -f batch_score.py --input=input-data --output=output-data
 ```
 
 This command creates your web service using the provided web service definition file(batch_score.py) and saves it in the storage associated with the HDInsight cluster. 
