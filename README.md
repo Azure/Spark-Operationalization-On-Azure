@@ -167,7 +167,7 @@ Open the notebook and execute all the cells in it till you reach the model creat
 Add the following line at the end of this cell to save your model.
 
 ```
-model.write().overwrite().save('wasb:///HdiSamples/HdiSamples/FoodInspectionDataModel/')
+model.write().overwrite().save('wasb:///HdiSamples/HdiSamples/FoodInspectionModel/')
 ```
 
 Execute this cell. You can choose to proceed further to execute the remaining cells or skip to continue to create the web service from the CLI.
