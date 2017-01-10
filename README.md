@@ -138,7 +138,6 @@ To run the RRS scenario, open the realtimewebservices.ipynb notebook and follow 
 ### Deploying the Batch web service
 
 You can operationalize your model as a batch web service in two environments through the private preview offering.
-
 1. Author your model and deploy the web service within a provisioned Data Science VM using the Azure ML CLI. You use this option in a dev/test or local environment when you are testing out your web service.
 2. Author your model and deploy the web service on a provisioned HDInsight Spark 2.0 cluster. You use this option when you're ready to deploy your web service to production. In this case, you can install Azure ML CLI on your local Linux or Windows machine and execute the CLI commands in a cluster environment
 
@@ -171,7 +170,7 @@ Open the notebook and execute all the cells in it till you reach the model creat
 
 Add the following line at the end of this cell to save your model.
 
--```
+```
 model.write().overwrite().save('wasb:///HdiSamples/HdiSamples/FoodInspectionModel/')
 ```
 
