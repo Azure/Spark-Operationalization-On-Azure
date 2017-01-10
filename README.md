@@ -19,10 +19,10 @@ You need configure the following items to complete the scenario.
 1. Provision a DSVM
 2. Choose or create a storage account in which to store web service information.
 2. Install SSH software to access the DSVM.
-3. Install the Azure CLI version 2.0 on the DSVM.
-3. Provision Azure Container Registry (ACR) to host your web service's container Azure Container Service cluster to host your remote web service.
-4. For the real-time scenario, provision an Azure Container Service instance.
-4. For the batch scenario, provision an HDInsight Spark 2.0 cluster or use an existing one.
+3. For RRS only: Install the Azure CLI version 2.0 on the DSVM.
+3. For RRS only: Provision Azure Container Registry (ACR) to host your web service's container Azure Container Service cluster to host your remote web service.
+4. For RRS only: Provision an Azure Container Service instance.
+4. For batch only: Provision an HDInsight Spark 2.0 cluster or use an existing one.
 
 ### Provision DSVM
 
@@ -55,13 +55,13 @@ Run the following command in SSH session:
 
 Then sign out of the DSVM and then sign back in.
 
-### Install the Azure CLI version 2
+### Install the Azure CLI version 2 (RRS only)
 
 To install the CLI, start an SSH session in Moba xTerm. Then run the following command:
 
 	sudo /anaconda/envs/py35/bin/pip install azure-cli 
 
-### Provision the ACR
+### Provision the ACR (RRS only)
 
 Sign in to the azure cli on the DSVM using the ```az login``` command.
 Open a browser on your local machine and navigate to ```https://aka.ms/devicelogin```. Enter the authentication code and follow the prompts.
@@ -92,7 +92,7 @@ click the following and complete the ACS deployment (this will take up to 20 min
 
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Famlacstemplateresources.blob.core.windows.net%3A443%2Ftemplates%2Fproduction%2FAmlMesosTemplate.json" target="_blank"><img src="http://azuredeploy.net/deploybutton.png"/></a> 
 
-### Edit the environment configuration file
+### Edit the environment configuration file (RRS only)
 
 In Moba xTerm, start a second SSH session. Note: Do not open a new window on your current session.
 
