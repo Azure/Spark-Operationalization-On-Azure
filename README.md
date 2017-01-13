@@ -8,7 +8,7 @@ Most of the features of the private preview are available for anyone. To use the
 
 ## Getting Started
 
-The getting started environment uses a Data Science VM (DSVM). For information on provisioning a DSVM, see the [Get started with the Linux Data Science VM](https://docs.microsoft.com/en-us/azure/machine-learning/machine-learning-data-science-virtual-machine-overview#get-started-with-the-linux-data-science-vm) section of *Introduction to the cloud-based Data Science Virtual Machine for Linux and Windows*.
+The getting started environment uses a Data Science VM (DSVM). For information on provisioning a DSVM, see [Provision the Linux Data Science Virtual Machine](https://docs.microsoft.com/en-us/azure/machine-learning/machine-learning-data-science-linux-dsvm-intro).
 
 Once you have signed into the DSVM, run the following commands:
 
