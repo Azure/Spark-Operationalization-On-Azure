@@ -2,7 +2,7 @@
 
 ## Overview
 
-The new version of Azure Machine Learning (ML) is powered by Spark and supports the operationlization of both the real-time and batch scoring scenarios through the new Azure Machine Learning CLI.
+The new version of Azure Machine Learning (ML) is powered by Spark and supports the operationlization of both the real-time and batch scoring scenarios. Using the new Azure Machine Learning CLI you can deploy machine learning models as RESTful web services in a high scale cluster environments.
 
 Most of the features of the private preview are available for anyone. To use the Azure ML CLI, you must have an API key. If you have not been officially on boarded as part of the private preview, you can obtain an API key by emailing raymondl@microsoft.com. 
 
