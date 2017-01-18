@@ -22,16 +22,16 @@ Jupyter is running on the DSVM at https://&lt;machine-ip-address&gt;:8000. Open 
 
 ### Run the Notebook 
 
-The notebooks are located in the **azureml** folder. 
+The notebooks are located in the **azureml\realtime** and **azureml\batch** folders. 
 
 **Note**: There are notebooks for both the real-time and Batch web service scenarios. Jupyter does not allow multiple notebooks to be running at the same time. Once you have finished with one scenario, stop the notebook before starting the next one. To stop the notebook:
 
 * If you are still in the notebook, select **File** and then click **Close and Halt**.
 * Otherwise, open the azureml folder, click the checkbox to select the notebook and then click **Shutdown**.
 
-To run the real-time scenario, open the realtimewebservices.ipynb notebook and follow the provided instructions to train, save, and deploy a model as a real-time web service.  The notebook contains instructions for deploying to the DSVM and for deployment to a production environment using ACS.
+To run the real-time scenario, from the azureml folder, change to the realtime folder and open the  realtimewebservices.ipynb notebook. Follow the instructions to train, save, and deploy a model as a real-time web service.  The notebook contains instructions for deploying to the DSVM and for deployment to a production environment using ACS.
 
-To run the batch scenario on the DSVM, open the FoodInspections.ipynb notebook and follow the provided instructions to train, save, and deploy a model as a local web service. 
+To run the batch scenario on the DSVM, from the azureml folder, change to the batch folder and open the batchwebservices.ipynb notebook. Follow the provided instructions to train, save, and deploy a model as a local web service. 
 
 To deploy a batch web service to an HDInsight cluster, see [Deploying a Batch web service on an HDInsight Cluster](batch-hdinsight.md).
 
