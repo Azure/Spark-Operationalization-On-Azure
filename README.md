@@ -10,10 +10,11 @@ Most of the features of the private preview are available for anyone. To use the
 
 The getting started environment uses a Data Science VM (DSVM). For information on provisioning a DSVM, see [Provision the Linux Data Science Virtual Machine](https://docs.microsoft.com/en-us/azure/machine-learning/machine-learning-data-science-linux-dsvm-intro).
 
-Once you have signed into the DSVM, run the following commands:
+Once you have signed into the DSVM, run the following command and follow the prompts:
 
-	ssh-keygen -t rsa -b 2048 -f ~/.ssh/id_rsa
-	<ACR/ACS/Storage Creation command>
+	aml env setup
+
+Once the setup command has finished, it outputs environment export commands for Azure Machine Learning CLI environment. We suggest that you create a shell script containing the commands so that you can run them again in the future.
 
 ## Jupyter notebook
 
@@ -29,3 +30,9 @@ The notebooks are located in the **azureml** folder.
 * Otherwise, open the azureml folder, click the checkbox to select the notebook and then click **Shutdown**.
 
 To run the real-time scenario, open the realtimewebservices.ipynb notebook and follow the provided instructions to train, save, and deploy a model as a real-time web service.  The notebook contains instructions for deploying to the DSVM and for deployment to a production environment using ACS.
+
+To run the batch scenario on the DSVM, open the FoodInspections.ipynb notebook and follow the provided instructions to train, save, and deploy a model as a local web service. 
+
+To deploy a batch web service to an HDInsight cluster, see [Deploying a Batch web service on an HDInsight Cluster](batch-hdinsight.md).
+
+
