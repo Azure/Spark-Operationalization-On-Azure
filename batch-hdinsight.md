@@ -127,7 +127,3 @@ Run the following command for calling jobs against the web service you created
 aml service run batch -n batch_webservice --input=--input-data:wasb://HdiSamples/HdiSamples/FoodInspectionData/Food_Inspections1.csv --output=--output-data:wasb://HdiSamples/HdiSamples/FoodInspectionWebServiceOutput -w
 ```
 The **-w** parameter indicates a synchronous call, i.e. wait till the job run completes.
-
-
-
-[batchappinatlltemplate]: "https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fazuremlbatchtest.blob.core.windows.net%2Ftemplates%2FinstallTemplate.json" target="_blank"
