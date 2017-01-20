@@ -33,3 +33,9 @@ To run the real-time scenario, from the azureml folder, change to the realtime f
 
 To run the batch scenario on the DSVM, from the azureml folder, change to the batch folder and open the batchwebservices.ipynb notebook. Follow the provided instructions to train, save, and deploy a model as a local web service. 
 
+## Updating the DSVM environment
+
+To update the Azure ML CLI to the latest release, run the following comnand on the the DSVM.
+
+	 sudo /anaconda/envs/py35/bin/pip install azuremlcli --upgrade
+
