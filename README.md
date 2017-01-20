@@ -33,6 +33,3 @@ To run the real-time scenario, from the azureml folder, change to the realtime f
 
 To run the batch scenario on the DSVM, from the azureml folder, change to the batch folder and open the batchwebservices.ipynb notebook. Follow the provided instructions to train, save, and deploy a model as a local web service. 
 
-To deploy a batch web service to an HDInsight cluster, see [Deploying a Batch web service on an HDInsight Cluster](batch-hdinsight.md).
-
-
