@@ -11,7 +11,7 @@ The getting started environment uses a Data Science VM (DSVM). For information o
 Once you have signed into the DSVM, run the following commands and follow the prompts:
 
 	$ sudo /opt/microsoft/azureml/initial_setup.sh
-	$ aml env show
+	$ aml env setup
 
 Once the setup command has finished, it outputs environment export commands for the AML CLI environment. We suggest that you create a shell script containing the commands so that you can run them again in the future.
 
@@ -33,4 +33,4 @@ To run the batch scenario on the DSVM, from the azureml folder, change to the ba
 
 To update the Azure ML bits on the DSVM, run the following command.
 
-	$ wget -q http://ritbhatrrs.blob.core.windows.net/release/amlupdate.sh -O - | sudo bash /dev/stdin
+	$ wget -q http://amlsamples.blob.core.windows.net/scripts/amlupdate.sh -O - | sudo bash -
