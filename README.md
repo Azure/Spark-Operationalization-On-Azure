@@ -1,8 +1,10 @@
-# Azure Machine Learning vNext (Private Preview)
+# Operationalizing Spark Models on Azure
 
 ## Overview
 
-The new version of Azure Machine Learning (AML) is powered by Spark and supports the operationlization of both real-time and batch scoring scenarios. Using the new Azure Machine Learning CLI you can deploy machine learning models as RESTful web services in high scale cluster environments.
+Ever wondered how to deploy a Spark model on Azure? Well, you've come to the right place!! This tutorial walks you through building predictive APIs (both realtime and batch) powered by Spark models, and deploying them to HDinsight and Azure Container Service clusters for scale.
+
+We'll start off by provisioning a Data Science VM to develop and test our APIs.
 
 ## Getting Started
 
@@ -22,8 +24,6 @@ Jupyter is running on the DSVM at https://&lt;machine-ip-address&gt;:8000. Open 
 ### Run the Notebook 
 
 There are notebooks for both the real-time and batch web service scenarios. The notebooks are located in the **azureml\realtime** and **azureml\batch** folders. 
-
-
 
 To run the real-time scenario, from the azureml folder, change to the realtime folder and open the  realtimewebservices.ipynb notebook. Follow the instructions to train, save, and deploy a model as a real-time web service.  The notebook contains instructions for deploying to the DSVM and for deployment to a production ACS environment.
 
