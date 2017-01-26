@@ -23,7 +23,7 @@ Jupyter is running on the DSVM at https://&lt;machine-ip-address&gt;:8000. Open 
 
 ### Run the Notebook 
 
-There are notebooks for both the real-time and batch web service scenarios. The notebooks are located in the **azureml\realtime** and **azureml\batch** folders. 
+There are notebooks for both the real-time and batch web service scenarios. The notebooks are located in the **azureml/realtime** and **azureml/batch** folders. 
 
 To run the real-time scenario, from the azureml folder, change to the realtime folder and open the  realtimewebservices.ipynb notebook. Follow the instructions to train, save, and deploy a model as a real-time web service.  The notebook contains instructions for deploying to the DSVM and for deployment to a production ACS environment.
 
