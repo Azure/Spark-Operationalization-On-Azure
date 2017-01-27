@@ -1,8 +1,8 @@
-# Operationalizing Spark Models on Azure
+# Deploying Spark Models on Azure
 
 ## Overview
 
-Ever wondered how to deploy a Spark machine learning model in production on Azure? Well, you've come to the right place!! This tutorial walks you through building predictive APIs (both realtime and batch) powered by Spark machine learning models, and deploying them to HDinsight and Azure Container Service clusters for scale.
+Ever wondered how to deploy a Spark machine learning model in production on Azure? Well, you've come to the right place! This tutorial walks you through building predictive APIs (both realtime and batch) powered by Spark machine learning models, and deploying them to HDinsight and Azure Container Service clusters for scale.
 
 We'll start off by provisioning a Data Science VM to develop and test our APIs.
 
