@@ -1,4 +1,4 @@
-# Deploying Spark Models on Azure
+# Deploying Spark ML Models on Azure (Preview)
 
 ## Overview
 
