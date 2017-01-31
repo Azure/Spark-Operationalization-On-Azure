@@ -15,7 +15,7 @@ Once you have signed into the DSVM, run the following commands and follow the pr
 	$ sudo /opt/microsoft/azureml/initial_setup.sh
 	$ aml env setup
 
-Once the setup command has finished, it outputs environment export commands for the AML CLI environment. We suggest that you create a shell script containing the commands so that you can run them again in the future.
+Once the setup command has finished, it outputs environment export commands for the AML CLI environment. A copy of the enviornment setting is saved in your home directory to the file ```.amlenvrc```.
 
 ## Jupyter notebook
 
