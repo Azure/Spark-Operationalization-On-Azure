@@ -12,10 +12,17 @@ The getting started environment uses a Data Science VM (DSVM). For information o
 
 Once you have signed into the DSVM, run the following commands and follow the prompts:
 
+	$ wget -q http://amlsamples.blob.core.windows.net/scripts/amlupdate.sh -O - | sudo bash -
 	$ sudo /opt/microsoft/azureml/initial_setup.sh
 	$ aml env setup
 
-Once the setup command has finished, it outputs environment export commands for the AML CLI environment. A copy of the enviornment setting is saved in your home directory to the file ```.amlenvrc```.
+Once the setup command has finished, it outputs environment export commands for the AML CLI environment. It also saves these export commands to a file in your home directory. Source the file to set up your environment variables:
+
+	$ source ~/.amlenvrc
+	
+To always set these variables when you log in, copy the export commands into your .bashrc file:
+
+	$ cat < ~/.amlenvrc >> ~/.bashrc
 
 ## Jupyter notebook
 
