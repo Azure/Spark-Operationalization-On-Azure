@@ -14,6 +14,20 @@ Once you have signed into the DSVM, run the following commands and follow the pr
 
 	$ wget -q http://amlsamples.blob.core.windows.net/scripts/amlupdate.sh -O - | sudo bash -
 	$ sudo /opt/microsoft/azureml/initial_setup.sh
+
+**NOTE**: You must log out and log back in to your SSH session for the changes to take effect.
+
+
+Next, enter the AML environment setup command.  **NOTE**: The following items when completing the environment setup:
+
+* Enter a name for the environment. Environment names must between 3 and 17 characters in length and can only consist of numbers and lowercase letters.
+* You will be prompted to sign in to Azure. To sign in, use a web browser to open the page https://aka.ms/devicelogin and enter the provided code to authenticate. 
+* During the authentication process you will be prompted for an account to authenticate with. Use the account under which you created the DSVM.
+* When the sign in is complete your subscription information will be presented and you will be prompted whether you wish to continue with the select account.
+
+
+Environment setup command:
+
 	$ aml env setup
 
 Once the setup command has finished, it outputs environment export commands for the AML CLI environment. It also saves these export commands to a file in your home directory. Source the file to set up your environment variables:
