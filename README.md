@@ -10,6 +10,8 @@ We'll start off by provisioning a Data Science VM to develop and test our APIs.
 
 The getting started environment uses a Data Science VM (DSVM). For information on provisioning a DSVM, see [Provision the Linux Data Science Virtual Machine](https://docs.microsoft.com/en-us/azure/machine-learning/machine-learning-data-science-linux-dsvm-intro).
 
+Note: The information in this document pertains to DSVMs provisioned after February 1st, 2017.
+
 Once you have signed into the DSVM, run the following commands and follow the prompts:
 
 	$ wget -q http://amlsamples.blob.core.windows.net/scripts/amlupdate.sh -O - | sudo bash -
