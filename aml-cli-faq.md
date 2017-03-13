@@ -13,7 +13,19 @@ The Azure Machine Learning CLI is Azure Machine Learning's new command line expe
 When you use the CLI to create a web service, it creates a docker image containing the web service and the dependent libraries. The CLI then returns the path to the Docker image file.
 
 You can use the returned path to deploy the image as a web service on any docker host. 
- 
+
+**How do I upgrade just the AML CLI?**
+
+You can upgrade your azuremlcli installation using pip.
+
+To perform the upgrade you must be running as sudo:
+
+	$ sudo -i
+
+Then issue the following command:
+
+	# pip install --upgrade azuremlcli
+
 
 ## Known Issues
 
