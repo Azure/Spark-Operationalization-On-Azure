@@ -10,6 +10,8 @@ We'll start off by provisioning a Data Science VM to develop and test our APIs.
 
 The getting started environment uses a Data Science VM (DSVM). For information on provisioning a DSVM, see [Provision the Linux Data Science Virtual Machine](https://docs.microsoft.com/en-us/azure/machine-learning/machine-learning-data-science-linux-dsvm-intro).
 
+Note: The information in this document pertains to DSVMs provisioned after February 1st, 2017.
+
 Once you have signed into the DSVM, run the following commands and follow the prompts:
 
 	$ wget -q http://amlsamples.blob.core.windows.net/scripts/amlupdate.sh -O - | sudo bash -
@@ -20,10 +22,10 @@ Once you have signed into the DSVM, run the following commands and follow the pr
 
 Next, enter the AML environment setup command.  **NOTE**: The following items when completing the environment setup:
 
-* Enter a name for the environment. Environment names must be between 3 and 17 characters in length and can only consist of numbers and lowercase letters.
+* Enter a name for the environment. Environment names must be 20 or fewer characters in length and can only consist of numbers and lowercase letters.
 * You will be prompted to sign in to Azure. To sign in, use a web browser to open the page https://aka.ms/devicelogin and enter the provided code to authenticate. 
 * During the authentication process you will be prompted for an account to authenticate with. Use the account under which you created the DSVM.
-* When the sign in is complete your subscription information will be presented and you will be prompted whether you wish to continue with the select account.
+* When the sign in is complete your subscription information will be presented and you will be prompted whether you wish to continue with the selected account.
 
 
 Environment setup command:
