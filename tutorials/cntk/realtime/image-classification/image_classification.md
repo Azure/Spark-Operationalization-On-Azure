@@ -2,7 +2,7 @@ In this tutorial, you will learn how to deploy a Microsoft Cognitive Toolkit (CN
 
 ## Provision a Data Science Virtual Machine
 
-To complete the tutorial, you must provision a Microsoft Linux Data Science Virtual Machine (DSVM). For information on provisioning a DSVN, see [Provision the Linux Data Science Virtual Machine](https://docs.microsoft.com/en-us/azure/machine-learning/machine-learning-data-science-linux-dsvm-intro).
+To complete the tutorial, you must provision a Microsoft Linux Data Science Virtual Machine (DSVM). For information on provisioning a DSVM, see [Provision the Linux Data Science Virtual Machine](https://docs.microsoft.com/en-us/azure/machine-learning/machine-learning-data-science-linux-dsvm-intro).
 
 If you have previously provisioned a DSVM and setup the AML CLI environment, you can move to the About the model section. **NOTE**: If you want to ensure that you have the latest AML CLI bits, see the notes section at the end of the tutorial for information on updating the AML CLI installation.
 
