@@ -1,10 +1,16 @@
-# Deploying Spark ML Models on Azure (Preview)
+# Operationalzing ML Models on Azure (Preview)
 
 ## Overview
 
-Ever wondered how to deploy a Spark machine learning model in production on Azure? Well, you've come to the right place! This tutorial walks you through building predictive APIs (both realtime and batch) powered by Spark machine learning models, and deploying them to [HDinsight](https://azure.microsoft.com/en-us/services/hdinsight/) and [Azure Container Service](https://azure.microsoft.com/en-us/services/container-service/) clusters for scale.
+You can efficiently operationalize Spark, Tensorflow, CNTK, or Python based machine learning models using the Azure Machine Learning CLI a Linux Data Science VM.
 
-We'll start off by provisioning a Data Science VM to develop and test our APIs.
+The following getting started tutorial walks you through building predictive APIs (both realtime and batch) powered by Spark machine learning models, and deploying them to [HDinsight](https://azure.microsoft.com/en-us/services/hdinsight/) and [Azure Container Service](https://azure.microsoft.com/en-us/services/container-service/) clusters for scale.
+
+Additional tutorials are available for:
+
+* [CNTK](samples/cntk/tutorials/realtime)
+* [Tensorflow](samples/tensorflow/tutorials/realtime)
+* [Python](samples/python/tutorials/realtime) 
 
 ## Getting Started
 
