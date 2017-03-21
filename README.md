@@ -1,4 +1,4 @@
-# operationalizing ML Models on Azure (Preview)
+# Operationalizing ML Models on Azure (Preview)
 
 ## Overview
 
