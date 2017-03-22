@@ -21,7 +21,7 @@ To deploy the model as a web service, you must supply a driver program that load
 
 From the command line on the DSVM, run the AML CLI service create command to deploy the model as a real-time web service:
 
-	$ aml service create realtime -r <runtime type>  -f &lt;driver file&gt; -m &lt;model file&gt; -n &lt;your service name&gt;
+	$ aml service create realtime -r <runtime type>  -f <driver file> -m <model file> -n <your service name>
 
 Example:
 
@@ -39,7 +39,7 @@ Once the web service is deployed, you can call it to classify images in two ways
 
 1. To score the sample car.png image using Python run the following command:
 
-	$ python score_cntk.py --img car.png --url http://<your service URL>:<your service port>/score --name <your service name>
+	$ python score_cntk.py --img car.png --url http://&lt;your service URL&gt;:&lt;your service port&gt;/score --name &lt;your service name&gt;
 
 	Example:
 
