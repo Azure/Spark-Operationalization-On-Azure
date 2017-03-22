@@ -51,7 +51,7 @@ Example command for this walkthrough:
 		
 	$ aml service create realtime -r tensorflow-py -f driver.py -m mnist_model.index -m mnist_model.data-00000-of-00001 -m mnist_model.meta -n tensorflowsrvc1
 
-When the service finishes deploying, the AML CLI returns the service URL and service port which you use to call the service. If you need to retrieve the URL and port, you can call the aml service view command.
+When the service finishes deploying, the AML CLI returns the service URL and service port which you use to call the service. If you need to retrieve the URL and port, you can call the ```aml service view``` command.
 
 	$ aml service view realtime <your service name>
 
@@ -100,7 +100,7 @@ Example:
 
 
 
-To test the web service on the cluster run the python script:
+When the service finishes deploying, the AML CLI returns the service URL which you use to call the service. If you need to retrieve the URL and port, you can call the ```aml service view``` command. When you call the web service on the ACS cluster, you must always use port 9091.
 
-	$ python tensorscorer.py --imgIdx <index of an image> ---url http://<your service URL>:<your service port>/score --name <your service name>
+	$ python tensorscorer.py --imgIdx <index of an image> ---url http://<your service URL>:9091/score --name <your service name>
 
