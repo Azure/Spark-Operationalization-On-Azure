@@ -1,8 +1,8 @@
-# Operationalzing ML Models on Azure (Preview)
+# Operationalizing ML Models on Azure (Preview)
 
 ## Overview
 
-You can efficiently operationalize Spark, Tensorflow, CNTK, or Python based machine learning models using the Azure Machine Learning CLI a Linux Data Science VM.
+You can efficiently operationalize Spark, Tensorflow, CNTK, or Python based machine learning models using the Azure Machine Learning CLI and a Linux Data Science VM.
 
 The following getting started tutorial walks you through building predictive APIs (both realtime and batch) powered by Spark machine learning models, and deploying them to [HDinsight](https://azure.microsoft.com/en-us/services/hdinsight/) and [Azure Container Service](https://azure.microsoft.com/en-us/services/container-service/) clusters for scale.
 

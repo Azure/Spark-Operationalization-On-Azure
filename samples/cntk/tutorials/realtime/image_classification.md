@@ -39,7 +39,7 @@ Once the web service is deployed, you can call it to classify images in two ways
 
 1. To score the sample car.png image using Python run the following command:
 
-	$ python score_cntk.py --img car.png --url http://<your service URL>:<your service port>/score --name <your service name>
+	$ python score_cntk.py --img car.png --url http://&lt;your service URL&gt;:&lt;your service port&gt;/score --name &lt;your service name&gt;
 
 	Example:
 
@@ -120,4 +120,3 @@ The model contained in the *resnet.dnn* file was trained using sample notebooks 
 		 
 		# Load the model from disk and perform evals
 		mymodel_reloaded = load_model('mymodel.dnn')
-		
