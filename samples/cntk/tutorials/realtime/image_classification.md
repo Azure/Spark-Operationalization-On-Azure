@@ -27,7 +27,7 @@ Example:
 
 	$ aml service create realtime -r cntk-py -f driver.py -m resnet.dnn -n cntksrvc2
 
-When the service finishes deploying, the AML CLI returns the service URL and service port which you use to call the service. If you need to retrieve the URL and port, you can call the aml service view command.
+When the service finishes deploying, the AML CLI returns the service URL and service port which you use to call the service. If you need to retrieve the URL and port, you can call the ```aml service view``` command.
 
 	$ aml service view realtime <your service name>
 
@@ -82,6 +82,8 @@ To set your environment to cluster mode, enter the following command:
 
 	$ aml env cluster
 
+When the service finishes deploying, the AML CLI returns the service URL which you use to call the service. If you need to retrieve the URL and port, you can call the ```aml service view``` command. When you call the web service on the ACS cluster, you must always use port 9091.
+
 You can then run the AML command to create the service on the cluster.
 
 	$ aml service create realtime -r <runtime type>  -f <driver file> -m <model file> -n <your service name>
@@ -91,9 +93,9 @@ Example:
 	$ aml service create realtime -r cntk-py -f driver.py -m resnet.dnn -n cntksrvc2
 
 
-To test the web service on the cluster run the python script:
+The To test the web service on the cluster run the python script:
 
-	$ python score_cntk.py --img car.png --url http://<your service URL>:<your service port>/score --name <your service name>
+	$ python score_cntk.py --img car.png --url http://<your service URL>:9091/score --name <your service name>
 
 ### Training the model
 
@@ -109,8 +111,7 @@ The model contained in the *resnet.dnn* file was trained using sample notebooks 
 	
 	Following libraries commands were added to the import and the save and reload functions as listed below.
 
-	    
-		``` 
+	    		
 		from cntk.ops import \*
 		from cntk.ops.functions import load_model
 		 
@@ -119,4 +120,4 @@ The model contained in the *resnet.dnn* file was trained using sample notebooks 
 		 
 		# Load the model from disk and perform evals
 		mymodel_reloaded = load_model('mymodel.dnn')
-		```
+		
