@@ -1,11 +1,21 @@
 # Azure Machine Learning Command Line Tools
 
+You can update your Azure ML CLI installation using pip.
+
+To perform the update, you must be running as sudo:
+
+	$ sudo -i
+
+
+Then issue the following command:
+
+	# pip install --upgrade azuremlcli
+
+
 Base commands:
 
 - env: Shows the current Azure ML related environment settings.
 - service: Allows you to manage Azure ML web services.
-
-
 
 ## Environment commands
 
@@ -17,10 +27,10 @@ Base commands:
 
 *aml env setup*
 
-Initializes your Azure machine learning environment with a storage account, ACR registry and ACS cluster.
+Initializes your Azure machine learning environment with a storage account, ACR registry, and ACS cluster.
 You are prompted for the following information during the setup:
 
-* A name for your environment. Environment names must between 3 and 17 characters in length and can only consist of numbers and lowercase letters.
+* A name for your environment. Environment names must between 3 and 20 characters in length and can only consist of numbers and lowercase letters.
 * The subscription in which to create Azure resources.
 
 **Local mode**
@@ -107,7 +117,7 @@ Example Output:
 |Instances|The number of instances of the web service.|
 |Health|The health of the web service. |
 
-*aml service create batch -n &lt;service name&gt; -f &lt;webservice file&gt; [-i &lt;input&gt;[=&lt;default_value&gt;] [-i &lt;input&gt;[=&lt;default_value&gt;]...]] [-o &lt;output&gt;[=&lt;default_value&gt;] [-o &lt;output&gt;[=&lt;default_value&gt;] ...]] [-p &lt;parameter&gt;[=&lt;default_value&gt;] [-p &lt;parameter&gt;[=&lt;default_value&gt;]...]] [-d &lt;dependency&gt; [-d &lt;dependency&gt;...]]*
+*aml service create batch -n &lt;service name&gt; -f &lt;webservice file&gt; [-i &lt;input&gt;[=&lt;default_value&gt;] [-i &lt;input&gt;[=&lt;default_value&gt;]...]] [-o &lt;output&gt;[=&lt;default_value&gt;] [-o &lt;output&gt;[=&lt;default_value&gt;] ...]] [-p &lt;parameter&gt;[=&lt;default_value&gt;] [-p &lt;parameter&gt;[=&lt;default_value&gt;]...]] [-d &lt;dependency&gt; [-d &lt;dependency&gt;...]] [-v]*
 
 Creates a batch web service using the specified parameters.
 
@@ -119,16 +129,20 @@ Creates a batch web service using the specified parameters.
 |-o | N |Specifies an output variable defined in the in the web service, along with an optional default output location.|
 |-p | N | Specifies an input parameter to the web service script file. To specify multiple parameters, use additional -p options.|
 |-d | N | Specifies the path to a file on which the web the web service has a dependency. To specify multiple dependencies, use additional -d options.|
+|-v | N | When specified, verbose output is provided. |
 
 
-*aml service create realtime -f &lt;webservice file&gt; -n &lt;service name&gt; [-d &lt;dependency1&gt; [-d &lt;dependency2&gt;] ...] [-r spark-py|cntk-py|tensorflow-py]*
+*aml service create realtime --f &lt;webservice file&gt; -n &lt;service name&gt; [-m &lt;model1&gt; [-m &lt;model2&gt;] ...] [-p requirements.txt] [-s &lt;schema&gt;] [-r spark-py|cntk-py|tensorflow-py]*
+
 
 |Name|Required|Description|
 |---|---|---|
 |-n | Y | Name for the web service. |
 |-f | Y | The script file containing the definition for the web service.|
-|-d | N | Specifies the path to a file on which the web the web service has a dependency. To specify multiple dependencies, use additional -d options.|
-|-r | N |Specifies the runtime to use for the web service. Valid values are:  spark-py, cntk-py, or tensorflow-py|
+|-m | N | The model for the web service. |
+|-p | N | Specifies the path to a pip requirements.txt specifying packages to install when the web service is created. |
+|-s | N |  Specifies the path to web service schema. |
+|-r | N | Specifies a runtime to use for the web service. Valid values are: spark-py, cntk-py, or tensorflow-py. If you do not specify a runtime, the web service is created using the spark-py runtime. |
 
 *aml service run batch -n &lt;service name&gt; [-j &lt;job id&gt;] [-i &lt;input&gt;=&lt;value&gt; [-i &lt;input&gt;=&lt;value&gt;...]] [-o &lt;output&gt;=&lt;value&gt; [-o &lt;output&gt;=&lt;value&gt; ...]] [-p &lt;parameter&gt;=&lt;value&gt; [-p &lt;parameter&gt;=&lt;value&gt;...]] [w]*
 
