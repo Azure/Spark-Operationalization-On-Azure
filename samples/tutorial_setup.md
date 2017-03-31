@@ -1,6 +1,6 @@
 # AML CLI tutorial setup
 
-To complete the AML CLI tutorials, you must provision a Microsoft Linux Data Science Virtual Machine (DSVM). For information on provisioning a DSVN, see [Provision the Linux Data Science Virtual Machine](https://docs.microsoft.com/en-us/azure/machine-learning/machine-learning-data-science-linux-dsvm-intro).
+To complete the AML CLI tutorials, you must provision a Microsoft Linux Data Science Virtual Machine (DSVM). For information on provisioning a DSVM, see [Provision the Linux Data Science Virtual Machine](https://docs.microsoft.com/en-us/azure/machine-learning/machine-learning-data-science-linux-dsvm-intro).
 
 If you have previously provisioned a DSVM and setup the AML CLI environment, you want to ensure that you have the latest AML CLI bits by updating the Updating the CLI. For information on updating the AML CLI installation, see Updating the CLI at the of this article.
 
