@@ -36,7 +36,7 @@ class AMLHelpers(Magics):
         from azure.cli.core._profile import Profile
         from azure.cli.core._util import CLIError
         self._redirect_logging('az.azure.cli.core._profile')
-        sub_name = cell
+        sub_name = cell.strip()
         profile = Profile()
         subs = profile.load_cached_subscriptions()
         if not subs:
