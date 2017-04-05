@@ -49,10 +49,72 @@ class AMLHelpers(Magics):
             print(exc)
             print('Active subscription remains {}'.format(profile.get_subscription()['name']))
 
+    @line_magic
+    def env_stuff(self, line):
+        import os
+        os.environ['bob'] = 'hey'
 
-    @cell_magic
-    def env_setup(self, line, cell):
-        pass
+
+    @line_magic
+    def env_setup(self, line):
+        from azure.cli.core._profile import Profile
+        import argparse
+        import os
+        self._redirect_logging('az.azure.cli.core._profile')
+        p = argparse.ArgumentParser()
+        p.add_argument('-n', '--name', help='base name for your environment', required=True)
+        parsed_args = p.parse_args(line.split())
+
+        # validate that user has selected a subscription
+        profile = Profile()
+        subs = profile.load_cached_subscriptions()
+        if not subs:
+            print('Please run %%select_sub before attempting to set up environment.')
+            return
+        from azure.cli.command_modules.ml._util import create_ssh_key_if_not_exists
+        from azure.cli.command_modules.ml._util import JupyterContext
+        from azure.cli.command_modules.ml._az_util import az_create_resource_group
+        from azure.cli.command_modules.ml._az_util import az_create_storage_account
+        from azure.cli.command_modules.ml._az_util import az_create_acr
+        from azure.cli.command_modules.ml._az_util import az_create_acs
+        print('Setting up your Azure ML environment with a storage account, App Insights account, ACR registry and ACS cluster.')
+        c = JupyterContext()
+        try:
+            ssh_public_key = create_ssh_key_if_not_exists()
+        except:
+            return
+        resource_group = az_create_resource_group(c, parsed_args.name)
+        storage_account_name, storage_account_key = az_create_storage_account(c,
+                                                                              parsed_args.name,
+                                                                              resource_group)
+        (acr_login_server, c.acr_username, acr_password) = \
+            az_create_acr(c, parsed_args.name, resource_group, storage_account_name)
+        az_create_acs(parsed_args.name, resource_group, acr_login_server, c.acr_username,
+                      acr_password, ssh_public_key)
+
+        os.environ['AML_STORAGE_ACCT_NAME'] = storage_account_name
+        os.environ['AML_STORAGE_ACCT_KEY'] = storage_account_key
+        os.environ['AML_ACR_HOME'] = acr_login_server
+        os.environ['AML_ACR_USER'] = c.acr_username
+        os.environ['AML_ACR_PW'] = acr_password
+        env_verb = 'export'
+        env_statements = ["{} AML_STORAGE_ACCT_NAME='{}'".format(env_verb, storage_account_name),
+                          "{} AML_STORAGE_ACCT_KEY='{}'".format(env_verb, storage_account_key),
+                          "{} AML_ACR_HOME='{}'".format(env_verb, acr_login_server),
+                          "{} AML_ACR_USER='{}'".format(env_verb, c.acr_username),
+                          "{} AML_ACR_PW='{}'".format(env_verb, acr_password)]
+        print('Environment configured, pending ACS deployment completion.')
+        print('This notebook will keep this environment available, though kernel restarts may clear it.')
+        print('To reset the environment, use the following commands:')
+        print('\n'.join([' {}'.format(statement) for statement in env_statements]))
+
+        try:
+            with open(os.path.expanduser('~/.amlenvrc'), 'w+') as env_file:
+                env_file.write('\n'.join(env_statements) + '\n')
+            print('You can also find these settings saved in {}'.format(os.path.join(os.path.expanduser('~'), '.amlenvrc')))
+        except IOError:
+            pass
+
 
     @cell_magic
     def publish_batch_local(self, parameter_s='', cell=None):
