@@ -17,23 +17,11 @@ class AMLHelpers(Magics):
     def list_subs(self, line, cell):
         from azure.cli.core._profile import Profile
         from azure.cli.core._util import CLIError
-        from azure.cli.core.azlogging import CustomStreamHandler
-        import logging
-        class PrintLogger(logging.Logger):
-            def _log(self, level, msg, args, exc_info=None, extra=None,
-                     stack_info=False):
-                print('{}: {}'.format(level, msg).format(args))
-
-        logging.setLoggerClass(PrintLogger)
-        profile_logger = logging.getLogger('az.azure.cli.core._profile')
-        profile_logger.addHandler(CustomStreamHandler(logging.DEBUG, {
-            True: '%(message)s',
-            False: '%(levelname)s: %(message)s',
-        }))
+        self._redirect_logging('az.azure.cli.core._profile')
         profile = Profile()
         try:
             profile.get_subscription()
-        except CLIError as exc:
+        except CLIError:
             profile.find_subscriptions_on_login(True, None, None, None, None)
         subs = profile.load_cached_subscriptions()
         if not subs:
@@ -42,6 +30,25 @@ class AMLHelpers(Magics):
             return
         print("Available subscriptions:\n  {}".format('\n  '.join(
             [sub['name'] for sub in subs])))
+
+    @cell_magic
+    def select_sub(self, line, cell):
+        from azure.cli.core._profile import Profile
+        from azure.cli.core._util import CLIError
+        self._redirect_logging('az.azure.cli.core._profile')
+        sub_name = cell
+        profile = Profile()
+        subs = profile.load_cached_subscriptions()
+        if not subs:
+            profile.find_subscriptions_on_login(True, None, None, None, None)
+
+        try:
+            profile.set_active_subscription(sub_name)
+            print('Active subscription set to {}'.format(profile.get_subscription()['name']))
+        except CLIError as exc:
+            print(exc)
+            print('Active subscription remains {}'.format(profile.get_subscription()['name']))
+
 
     @cell_magic
     def env_setup(self, line, cell):
@@ -62,6 +69,17 @@ class AMLHelpers(Magics):
 
         b.batch_service_list(context)
         #  return line, cell
+
+    @staticmethod
+    def _redirect_logging(module_name):
+        import logging
+        from azure.cli.core.azlogging import CustomStreamHandler
+        profile_logger = logging.getLogger(module_name)
+        if not profile_logger.handlers:
+            profile_logger.addHandler(CustomStreamHandler(logging.DEBUG, {
+                True: '%(message)s',
+                False: '%(levelname)s: %(message)s',
+            }))
 
     @staticmethod
     def _save_file(code, opts, namespace):
