@@ -1,10 +1,17 @@
 from __future__ import print_function
 from IPython.core.magic import (Magics, magics_class, line_magic, cell_magic)
 from IPython.utils.ipstruct import Struct
-
+import os
 
 @magics_class
 class AMLHelpers(Magics):
+
+    @staticmethod
+    def print_and_update_env(k, v):
+        os.environ[k] = v
+        print(' os.environ["{}"]="{}"'.format(k, v))
+        return 'export {}={}'.format(k, v)
+
     @cell_magic
     def save_file(self, parameter_s='', cell=None):
         opts, arg_str = self.parse_options(parameter_s, 'f:', list_all=True, posix=False)
@@ -50,16 +57,81 @@ class AMLHelpers(Magics):
             print('Active subscription remains {}'.format(profile.get_subscription()['name']))
 
     @line_magic
-    def env_stuff(self, line):
-        import os
-        os.environ['bob'] = 'hey'
+    def check_deployment(self, line):
+        from azure.cli.core._profile import Profile
+        from azure.cli.core.commands import client_factory
+        from azure.mgmt.resource.resources import ResourceManagementClient
+        from azure.cli.command_modules.ml._az_util import az_get_app_insights_account
+        import argparse
+        self._redirect_logging('az.azure.cli.core._profile')
+        p = argparse.ArgumentParser()
+        p.add_argument('-d', '--deployment', help='Long running deployment to check', required=True)
+        parsed_args = p.parse_args(line.split())
+        deployment_name = parsed_args.deployment
+
+        # validate that user has selected a subscription
+        profile = Profile()
+        subs = profile.load_cached_subscriptions()
+        if not subs:
+            print('Please run %%select_sub before attempting to query.')
+            return
+
+        if 'deployment' not in deployment_name:
+            print("Not a valid AML deployment name.")
+
+        resource_group = deployment_name.split('deployment')[0]
+        client = client_factory.get_mgmt_service_client(ResourceManagementClient).deployments
+        result = client.get(resource_group, deployment_name)
+        if result.properties.provisioning_state != 'Succeeded':
+            print('Deployment status: {}'.format(result.properties.provisioning_state))
+            return
+
+        completed_deployment = result
+
+        if 'appinsights' in completed_deployment.name:
+            (app_insights_account_name,
+             app_insights_account_key) = az_get_app_insights_account(completed_deployment)
+            if app_insights_account_name and app_insights_account_key:
+
+                print("Environment updated with AppInsight information.")
+                print("This notebook will keep this environment available, though kernel restarts will clear it.")
+                print("To reset the environment, use the following commands:")
+                print(' import os')
+                result_str = '\n'.join([
+                        self.print_and_update_env('AML_APP_INSIGHTS_NAME', app_insights_account_name),
+                        self.print_and_update_env('AML_APP_INSIGHTS_KEY', app_insights_account_key)])
+                try:
+                    with open(os.path.join(os.path.expanduser('~'), '.amlenvrc'), 'a') as env_file:
+                        env_file.write(result_str)
+                        print('{} has also been updated.'.format(env_file.name))
+                except IOError:
+                    pass
+        else:
+            acs_master = completed_deployment.properties.outputs['masterFQDN']['value']
+            acs_agent = completed_deployment.properties.outputs['agentpublicFQDN'][
+                'value']
+            if acs_master and acs_agent:
+                print('ACS deployment succeeded.')
+                print("Environment updated with ACS information.")
+                print("This notebook will keep this environment available, though kernel restarts will clear it.")
+                print("To reset the environment, use the following commands:")
+                print(' import os')
+
+                result_str = '\n'.join([
+                        self.print_and_update_env('AML_ACS_MASTER', acs_master),
+                        self.print_and_update_env('AML_ACS_AGENT', acs_agent)])
+                try:
+                    with open(os.path.join(os.path.expanduser('~'), '.amlenvrc'), 'a') as env_file:
+                        env_file.write(result_str)
+                        print('{} has also been updated.'.format(env_file.name))
+                except IOError:
+                    pass
 
 
     @line_magic
     def env_setup(self, line):
         from azure.cli.core._profile import Profile
         import argparse
-        import os
         self._redirect_logging('az.azure.cli.core._profile')
         p = argparse.ArgumentParser()
         p.add_argument('-n', '--name', help='base name for your environment', required=True)
@@ -75,6 +147,7 @@ class AMLHelpers(Magics):
         from azure.cli.command_modules.ml._util import JupyterContext
         from azure.cli.command_modules.ml._az_util import az_create_resource_group
         from azure.cli.command_modules.ml._az_util import az_create_storage_account
+        from azure.cli.command_modules.ml._az_util import az_create_app_insights_account
         from azure.cli.command_modules.ml._az_util import az_create_acr
         from azure.cli.command_modules.ml._az_util import az_create_acs
         print('Setting up your Azure ML environment with a storage account, App Insights account, ACR registry and ACS cluster.')
@@ -89,29 +162,24 @@ class AMLHelpers(Magics):
                                                                               resource_group)
         (acr_login_server, c.acr_username, acr_password) = \
             az_create_acr(c, parsed_args.name, resource_group, storage_account_name)
+        az_create_app_insights_account(parsed_args.name, resource_group)
         az_create_acs(parsed_args.name, resource_group, acr_login_server, c.acr_username,
                       acr_password, ssh_public_key)
 
-        os.environ['AML_STORAGE_ACCT_NAME'] = storage_account_name
-        os.environ['AML_STORAGE_ACCT_KEY'] = storage_account_key
-        os.environ['AML_ACR_HOME'] = acr_login_server
-        os.environ['AML_ACR_USER'] = c.acr_username
-        os.environ['AML_ACR_PW'] = acr_password
-        env_verb = 'export'
-        env_statements = ["{} AML_STORAGE_ACCT_NAME='{}'".format(env_verb, storage_account_name),
-                          "{} AML_STORAGE_ACCT_KEY='{}'".format(env_verb, storage_account_key),
-                          "{} AML_ACR_HOME='{}'".format(env_verb, acr_login_server),
-                          "{} AML_ACR_USER='{}'".format(env_verb, c.acr_username),
-                          "{} AML_ACR_PW='{}'".format(env_verb, acr_password)]
-        print('Environment configured, pending ACS deployment completion.')
-        print('This notebook will keep this environment available, though kernel restarts may clear it.')
-        print('To reset the environment, use the following commands:')
-        print('\n'.join([' {}'.format(statement) for statement in env_statements]))
-
+        print("Environment configured, pending ACS deployment completion.")
+        print("This notebook will keep this environment available, though kernel restarts will clear it.")
+        print("To reset the environment, use the following commands:")
+        print(' import os')
+        result_str = '\n'.join([
+            self.print_and_update_env('AML_STORAGE_ACCT_NAME', storage_account_name),
+            self.print_and_update_env('AML_STORAGE_ACCT_KEY', storage_account_name),
+            self.print_and_update_env('AML_ACR_HOME', acr_login_server),
+            self.print_and_update_env('AML_ACR_USER', c.acr_username),
+            self.print_and_update_env('AML_ACR_PW', acr_password)])
         try:
             with open(os.path.expanduser('~/.amlenvrc'), 'w+') as env_file:
-                env_file.write('\n'.join(env_statements) + '\n')
-            print('You can also find these settings saved in {}'.format(os.path.join(os.path.expanduser('~'), '.amlenvrc')))
+                env_file.write(result_str)
+                print('You can also find these settings saved in {}'.format(env_file.name))
         except IOError:
             pass
 
@@ -124,7 +192,6 @@ class AMLHelpers(Magics):
         print('sys.executable: {}'.format(sys.executable))
         import azure.cli.command_modules.ml.service.batch as b
         import azure.cli.command_modules.ml._util as u
-        import os
         print(os.path.abspath(u.__file__))
         context = u.JupyterContext()
         context.local_mode = True
