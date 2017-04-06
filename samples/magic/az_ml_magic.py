@@ -185,19 +185,27 @@ class AMLHelpers(Magics):
 
 
     @cell_magic
-    def publish_batch_local(self, parameter_s='', cell=None):
-        print('param: {}'.format(parameter_s))
-        print('cell: {}'.format(cell))
-        import sys
-        print('sys.executable: {}'.format(sys.executable))
-        import azure.cli.command_modules.ml.service.batch as b
+    def publish_realtime_local(self, parameter_s='', cell=None):
+        import argparse
+        import tempfile
+        import azure.cli.command_modules.ml.service.realtime as r
         import azure.cli.command_modules.ml._util as u
-        print(os.path.abspath(u.__file__))
+        p = argparse.ArgumentParser()
+        p.add_argument('-s', '--schema', help='local path to schema file', required=True)
+        p.add_argument('-m', '--model', help='local path to model', required=True)
+        p.add_argument('-n', '--name', help='name of the webservice', required=True)
+        args = p.parse_args(parameter_s.split())
         context = u.JupyterContext()
         context.local_mode = True
+        with tempfile.NamedTemporaryFile() as score_file:
+            score_file.write(cell)
+            r.realtime_service_create(score_file.name,
+                                      dependencies=[], requirements='',
+                                      schema_file=args.schema, service_name=args.name,
+                                      verb=False, custom_ice_url='', target_runtime='spark-py',
+                                      logging_level='', model=args.model, context=context)
 
-        b.batch_service_list(context)
-        #  return line, cell
+
 
     @staticmethod
     def _redirect_logging(module_name):
