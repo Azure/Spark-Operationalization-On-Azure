@@ -25,26 +25,41 @@ Once you have signed into the DSVM, run the following commands and follow the pr
 
 **NOTE**: You must log out and log back in to your SSH session for the changes to take effect.
 
-Next, setup the AML environment.  **NOTE**: The following items when completing the environment setup:
+Next, setup the AML environment. The AML environment setup command creates the following resources for you:
+
+* A resource group
+* A storage account
+* An Azure Container Registry (ACR)
+* An Azure Container Service (ACR)
+* Application insights
+
+**NOTE**: The following items when completing the environment setup:
 
 * Enter a name for the environment. Environment names must be 20 or fewer characters in length and can only consist of numbers and lowercase letters.
-* You will be prompted to sign in to Azure. To sign in, use a web browser to open the page https://aka.ms/devicelogin and enter the provided code to authenticate. 
+* You will be prompted to sign in to Azure. To sign in, use a web browser to open the page https://aka.ms/devicelogin and enter the provided code to authenticate.
 * During the authentication process you will be prompted for an account to authenticate with. Use the account under which you created the DSVM.
 * When the sign in is complete your subscription information will be presented and you will be prompted whether you wish to continue with the selected account.
-
 
 To setup the AML environment, run the following commands:
 
 	$ az login
 	$ aml env setup
+	
+The resource group, storage account, and ACR are created quickly. The ACS deployment can take some time. Once the setup command has finished setting up the resource group, storage account, and ACR, it outputs environment export commands for the AML CLI environment. 
 
-Once the setup command has finished, it outputs environment export commands for the AML CLI environment. It also saves these export commands to a file in your home directory. Source the file to set up your environment variables:
+It saves the export commands to a file in your home directory. Source the file to set up your environment variables: 
 
-	$ source ~/.amlenvrc
+	$ source ~/.amlenvrc 
 	
 To always set these variables when you log in, copy the export commands into your .bashrc file:
 
 	$ cat < ~/.amlenvrc >> ~/.bashrc
+	
+The ACS deployment continues in the background and you are supplied with an ACS deployment ID that you can use with the AML environment setup to check the status of the deployment. **Note**: The .amlenvrc file is not automatically updated with ACS values, you must run the status command after the ACS deployment has completed to update the file.
+
+Example: 
+
+	aml env setup -s doncli04082017rgdeploymentacs20170407062300
 
 ## Jupyter notebook
 
