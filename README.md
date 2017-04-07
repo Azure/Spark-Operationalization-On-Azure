@@ -30,7 +30,7 @@ Next, setup the AML environment. The AML environment setup command creates the f
 * A resource group
 * A storage account
 * An Azure Container Registry (ACR)
-* An Azure Container Service (ACR)
+* An Azure Container Service (ACS)
 * Application insights
 
 **NOTE**: The following items when completing the environment setup:
