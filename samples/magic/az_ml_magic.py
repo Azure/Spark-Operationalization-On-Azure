@@ -190,20 +190,51 @@ class AMLHelpers(Magics):
         import tempfile
         import azure.cli.command_modules.ml.service.realtime as r
         import azure.cli.command_modules.ml._util as u
+        try:
+            # python 3.4+ import
+            from importlib import reload
+        except:
+            try:
+                # 3 < 3.4
+                from imp import reload
+            except:
+                pass
+                # builtin for p2
+
+        reload(u)
         p = argparse.ArgumentParser()
         p.add_argument('-s', '--schema', help='local path to schema file', required=True)
         p.add_argument('-m', '--model', help='local path to model', required=True)
         p.add_argument('-n', '--name', help='name of the webservice', required=True)
+        p.add_argument('-o', '--overwrite', help='flag to overwrite existing service',
+                       action='store_true')
         args = p.parse_args(parameter_s.split())
         context = u.JupyterContext()
         context.local_mode = True
-        with tempfile.NamedTemporaryFile() as score_file:
+        context.set_input_response('Delete existing service and create new service (y/N)? ',
+                          'y' if args.overwrite else 'n')
+        _, fp = tempfile.mkstemp()
+        with open(fp, 'w') as score_file:
             score_file.write(cell)
-            r.realtime_service_create(score_file.name,
+        try:
+            resp_code = r.realtime_service_create(score_file.name,
                                       dependencies=[], requirements='',
                                       schema_file=args.schema, service_name=args.name,
                                       verb=False, custom_ice_url='', target_runtime='spark-py',
                                       logging_level='', model=args.model, context=context)
+            if resp_code == 1:
+                print('Use -o flag to magic to overwrite the existing service.')
+        finally:
+            # cleanup
+            os.remove(fp)
+
+    @line_magic
+    def list_realtime_local(self, line):
+        from azure.cli.command_modules.ml.service.realtime import realtime_service_list
+        from azure.cli.command_modules.ml._util import JupyterContext
+        c = JupyterContext()
+        c.local_mode = True
+        realtime_service_list(context=c)
 
 
 
