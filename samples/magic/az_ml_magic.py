@@ -2,6 +2,9 @@ from __future__ import print_function
 from IPython.core.magic import (Magics, magics_class, line_magic, cell_magic)
 from IPython.utils.ipstruct import Struct
 import os
+import argparse
+import shlex
+
 
 @magics_class
 class AMLHelpers(Magics):
@@ -62,7 +65,6 @@ class AMLHelpers(Magics):
         from azure.cli.core.commands import client_factory
         from azure.mgmt.resource.resources import ResourceManagementClient
         from azure.cli.command_modules.ml._az_util import az_get_app_insights_account
-        import argparse
         self._redirect_logging('az.azure.cli.core._profile')
         p = argparse.ArgumentParser()
         p.add_argument('-d', '--deployment', help='Long running deployment to check', required=True)
@@ -131,7 +133,6 @@ class AMLHelpers(Magics):
     @line_magic
     def env_setup(self, line):
         from azure.cli.core._profile import Profile
-        import argparse
         self._redirect_logging('az.azure.cli.core._profile')
         p = argparse.ArgumentParser()
         p.add_argument('-n', '--name', help='base name for your environment', required=True)
@@ -186,22 +187,12 @@ class AMLHelpers(Magics):
 
     @cell_magic
     def publish_realtime_local(self, parameter_s='', cell=None):
-        import argparse
         import tempfile
         import azure.cli.command_modules.ml.service.realtime as r
         import azure.cli.command_modules.ml._util as u
-        try:
-            # python 3.4+ import
-            from importlib import reload
-        except:
-            try:
-                # 3 < 3.4
-                from imp import reload
-            except:
-                pass
-                # builtin for p2
 
-        reload(u)
+        # reload util to get new environment vars
+        self.easy_reload(u)
         p = argparse.ArgumentParser()
         p.add_argument('-s', '--schema', help='local path to schema file', required=True)
         p.add_argument('-m', '--model', help='local path to model', required=True)
@@ -236,7 +227,38 @@ class AMLHelpers(Magics):
         c.local_mode = True
         realtime_service_list(context=c)
 
+    @line_magic
+    def view_realtime_local(self, line):
+        import azure.cli.command_modules.ml.service.realtime as r
+        import azure.cli.command_modules.ml._util as u
 
+        p = argparse.ArgumentParser()
+        p.add_argument('-n', '--name', help='name of the webservice', required=True)
+        name = p.parse_args(line.split()).name
+        context = u.JupyterContext()
+        context.local_mode = True
+        r.realtime_service_view(service_name=name, context=context)
+
+    @line_magic
+    def run_realtime_local(self, line):
+        import azure.cli.command_modules.ml.service.realtime as r
+
+        p = argparse.ArgumentParser()
+        p.add_argument('-n', '--name', help='name of the webservice', required=True)
+        p.add_argument('-d', '--data', help='data to send', default='')
+        parsed_args = p.parse_args(shlex.split(line))
+        name = parsed_args.name
+        input_data = parsed_args.data
+        r.realtime_service_run_local(service_name=name, input_data=input_data, verbose=False)
+
+    @line_magic
+    def delete_realtime_local(self, line):
+        import azure.cli.command_modules.ml.service.realtime as r
+
+        p = argparse.ArgumentParser()
+        p.add_argument('-n', '--name', help='name of the webservice', required=True)
+        name = p.parse_args(line.split()).name
+        r.realtime_service_delete_local(service_name=name, verbose=False)
 
     @staticmethod
     def _redirect_logging(module_name):
@@ -266,6 +288,20 @@ class AMLHelpers(Magics):
         print("Saved cell to {}".format(file_name))
         return
 
+    @staticmethod
+    def easy_reload(module):
+        try:
+            # python 3.4+ import
+            from importlib import reload
+        except ImportError:
+            try:
+                # 3 < 3.4
+                from imp import reload
+            except ImportError:
+                pass
+                # builtin for p2
+
+        reload(module)
 
 from IPython import get_ipython
 
