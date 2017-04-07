@@ -35,7 +35,7 @@ Next, setup the AML environment.  **NOTE**: The following items when completing 
 
 To setup the AML environment, run the following commands:
 
-        $ az login
+	$ az login
 	$ aml env setup
 
 Once the setup command has finished, it outputs environment export commands for the AML CLI environment. It also saves these export commands to a file in your home directory. Source the file to set up your environment variables:
