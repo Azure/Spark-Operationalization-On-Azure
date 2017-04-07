@@ -25,8 +25,7 @@ Once you have signed into the DSVM, run the following commands and follow the pr
 
 **NOTE**: You must log out and log back in to your SSH session for the changes to take effect.
 
-
-Next, enter the AML environment setup command.  **NOTE**: The following items when completing the environment setup:
+Next, setup the AML environment.  **NOTE**: The following items when completing the environment setup:
 
 * Enter a name for the environment. Environment names must be 20 or fewer characters in length and can only consist of numbers and lowercase letters.
 * You will be prompted to sign in to Azure. To sign in, use a web browser to open the page https://aka.ms/devicelogin and enter the provided code to authenticate. 
@@ -34,8 +33,9 @@ Next, enter the AML environment setup command.  **NOTE**: The following items wh
 * When the sign in is complete your subscription information will be presented and you will be prompted whether you wish to continue with the selected account.
 
 
-Environment setup command:
+To setup the AML environment, run the following commands:
 
+        $ az login
 	$ aml env setup
 
 Once the setup command has finished, it outputs environment export commands for the AML CLI environment. It also saves these export commands to a file in your home directory. Source the file to set up your environment variables:
