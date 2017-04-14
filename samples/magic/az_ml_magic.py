@@ -4,6 +4,22 @@ from IPython.utils.ipstruct import Struct
 import os
 import argparse
 import shlex
+import re
+
+from cStringIO import StringIO
+import sys
+
+
+class Capturing(list):
+    def __enter__(self):
+        self._stdout = sys.stdout
+        sys.stdout = self._stringio = StringIO()
+        return self
+
+    def __exit__(self, *args):
+        self.extend(self._stringio.getvalue().splitlines())
+        del self._stringio    # free up some memory
+        sys.stdout = self._stdout
 
 
 @magics_class
@@ -23,10 +39,13 @@ class AMLHelpers(Magics):
 
         return self._save_file(arg_str, opts, self.shell.user_ns)
 
-    @cell_magic
-    def list_subs(self, line, cell):
+    @line_magic
+    def list_subs(self, line):
         from azure.cli.core._profile import Profile
-        from azure.cli.core._util import CLIError
+        try:
+            from azure.cli.core.util import CLIError
+        except ImportError:
+            from azure.cli.core._util import CLIError
         self._redirect_logging('az.azure.cli.core._profile')
         profile = Profile()
         try:
@@ -44,7 +63,10 @@ class AMLHelpers(Magics):
     @cell_magic
     def select_sub(self, line, cell):
         from azure.cli.core._profile import Profile
-        from azure.cli.core._util import CLIError
+        try:
+            from azure.cli.core.util import CLIError
+        except ImportError:
+            from azure.cli.core._util import CLIError
         self._redirect_logging('az.azure.cli.core._profile')
         sub_name = cell.strip()
         profile = Profile()
@@ -147,10 +169,13 @@ class AMLHelpers(Magics):
         from azure.cli.command_modules.ml._util import create_ssh_key_if_not_exists
         from azure.cli.command_modules.ml._util import JupyterContext
         from azure.cli.command_modules.ml._az_util import az_create_resource_group
-        from azure.cli.command_modules.ml._az_util import az_create_storage_account
         from azure.cli.command_modules.ml._az_util import az_create_app_insights_account
-        from azure.cli.command_modules.ml._az_util import az_create_acr
+        from azure.cli.command_modules.ml._az_util import az_create_storage_and_acr
         from azure.cli.command_modules.ml._az_util import az_create_acs
+        from azure.cli.command_modules.ml._az_util import query_deployment_status
+        from azure.cli.command_modules.ml._az_util import az_get_app_insights_account
+        from azure.cli.command_modules.ml._az_util import AzureCliError
+        import time
         print('Setting up your Azure ML environment with a storage account, App Insights account, ACR registry and ACS cluster.')
         c = JupyterContext()
         try:
@@ -158,20 +183,46 @@ class AMLHelpers(Magics):
         except:
             return
         resource_group = az_create_resource_group(c, parsed_args.name)
-        storage_account_name, storage_account_key = az_create_storage_account(c,
-                                                                              parsed_args.name,
-                                                                              resource_group)
-        (acr_login_server, c.acr_username, acr_password) = \
-            az_create_acr(c, parsed_args.name, resource_group, storage_account_name)
-        az_create_app_insights_account(parsed_args.name, resource_group)
-        az_create_acs(parsed_args.name, resource_group, acr_login_server, c.acr_username,
-                      acr_password, ssh_public_key)
+        app_insights_deployment_id = az_create_app_insights_account(parsed_args.name, resource_group)
+        (acr_login_server, c.acr_username, acr_password, storage_account_name, storage_account_key) = \
+            az_create_storage_and_acr(parsed_args.name, resource_group)
+
+        with Capturing() as output:
+            az_create_acs(parsed_args.name, resource_group, acr_login_server, c.acr_username,
+                          acr_password, ssh_public_key)
+
+        acs_regex = r"az ml env setup -s (?P<deployment_id>[^']+)"
+        for line in output:
+            s = re.search(acs_regex, line)
+            if s:
+                print('To check the status of the deployment, run line magic %check_deployment -d {}'.format(s.group('deployment_id')))
+            else:
+                print(line)
+
+        completed_deployment = None
+        while not completed_deployment:
+            try:
+                print('Querying App Insights deployment...')
+                completed_deployment = query_deployment_status(resource_group,
+                                                               app_insights_deployment_id)
+                time.sleep(5)
+            except AzureCliError as exc:
+                print(exc.message)
+                break
 
         print("Environment configured, pending ACS deployment completion.")
         print("This notebook will keep this environment available, though kernel restarts will clear it.")
         print("To reset the environment, use the following commands:")
         print(' import os')
-        result_str = '\n'.join([
+
+        result_str = ''
+        if completed_deployment:
+            app_insights_account_name, app_insights_account_key = az_get_app_insights_account(
+                completed_deployment)
+            result_str = '\n'.join([
+                self.print_and_update_env('AML_APP_INSIGHTS_NAME', app_insights_account_name),
+                self.print_and_update_env('AML_APP_INSIGHTS_KEY', app_insights_account_key)])
+        result_str += '\n'.join([
             self.print_and_update_env('AML_STORAGE_ACCT_NAME', storage_account_name),
             self.print_and_update_env('AML_STORAGE_ACCT_KEY', storage_account_name),
             self.print_and_update_env('AML_ACR_HOME', acr_login_server),
