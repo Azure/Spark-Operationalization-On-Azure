@@ -60,22 +60,24 @@ class AMLHelpers(Magics):
         print("Available subscriptions:\n  {}".format('\n  '.join(
             [sub['name'] for sub in subs])))
 
-    @cell_magic
-    def select_sub(self, line, cell):
+    @line_magic
+    def select_sub(self, line):
         from azure.cli.core._profile import Profile
         try:
             from azure.cli.core.util import CLIError
         except ImportError:
             from azure.cli.core._util import CLIError
         self._redirect_logging('az.azure.cli.core._profile')
-        sub_name = cell.strip()
+        p = argparse.ArgumentParser()
+        p.add_argument('subscription')
+        parsed_args = p.parse_args(shlex.split(line))
         profile = Profile()
         subs = profile.load_cached_subscriptions()
         if not subs:
             profile.find_subscriptions_on_login(True, None, None, None, None)
 
         try:
-            profile.set_active_subscription(sub_name)
+            profile.set_active_subscription(parsed_args.subscription)
             print('Active subscription set to {}'.format(profile.get_subscription()['name']))
         except CLIError as exc:
             print(exc)
@@ -153,7 +155,7 @@ class AMLHelpers(Magics):
 
 
     @line_magic
-    def env_setup(self, line):
+    def aml_env_setup(self, line):
         from azure.cli.core._profile import Profile
         self._redirect_logging('az.azure.cli.core._profile')
         p = argparse.ArgumentParser()
@@ -248,6 +250,7 @@ class AMLHelpers(Magics):
         p.add_argument('-s', '--schema', help='local path to schema file', required=True)
         p.add_argument('-m', '--model', help='local path to model', required=True)
         p.add_argument('-n', '--name', help='name of the webservice', required=True)
+        p.add_argument('-d', '--dependency', dest='dependencies', help='arbitrary dependencies', action='append', default=[])
         p.add_argument('-o', '--overwrite', help='flag to overwrite existing service',
                        action='store_true')
         args = p.parse_args(parameter_s.split())
@@ -260,7 +263,7 @@ class AMLHelpers(Magics):
             score_file.write(cell)
         try:
             resp_code = r.realtime_service_create(score_file.name,
-                                      dependencies=[], requirements='',
+                                      dependencies=args.dependencies, requirements='',
                                       schema_file=args.schema, service_name=args.name,
                                       verb=False, custom_ice_url='', target_runtime='spark-py',
                                       logging_level='', model=args.model, context=context)
