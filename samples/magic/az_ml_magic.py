@@ -266,7 +266,7 @@ class AMLHelpers(Magics):
                                       dependencies=args.dependencies, requirements='',
                                       schema_file=args.schema, service_name=args.name,
                                       verb=False, custom_ice_url='', target_runtime='spark-py',
-                                      logging_level='', model=args.model, context=context)
+                                      logging_level='debug', model=args.model, context=context)
             if resp_code == 1:
                 print('Use -o flag to magic to overwrite the existing service.')
         finally:
